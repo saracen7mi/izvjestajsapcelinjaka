@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamo's Bees | Godišnji Izvještaj o Radu 2026. 🐝🍯</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent: #d97706;
+            --accent-hover: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-bottom: 3px solid var(--accent);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            color: var(--accent);
+            font-size: 2.3rem;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            color: var(--accent);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        h3 {
+            color: var(--accent-hover);
+        }
+
+        p, li {
+            color: var(--text-main);
+        }
+
+        .notice {
+            background: rgba(217, 119, 6, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: #f1f5f9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background-color: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-box h3 {
+            margin: 0;
+            font-size: 2rem;
+            color: var(--accent-hover);
+        }
+
+        .stat-box p {
+            margin: 5px 0 0 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 320px;
+            width: 100%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .simulator {
+            background: rgba(217, 119, 6, 0.1);
+            border: 1px dashed var(--accent);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .simulator label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .simulator input {
+            width: 100%;
+            padding: 10px;
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            color: white;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        input.search-bar {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            color: white;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            color: var(--accent);
+            background-color: rgba(15, 23, 42, 0.4);
+        }
+
+        tr:hover {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🐝🍯 HAMOSBEES PČELINJAK 🌸🌿</h1>
+        <p>Godišnji izvještaj o radu pčelinjaka — Sezona 2026. (Sarajevo, Ulica Svetozara Ćorovića 3)</p>
+    </header>
+
+    <div class="container">
+
+        <!-- Glavne metrike -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <h3>308 kg 🍯</h3>
+                <p>Ukupno Vrcano Meda</p>
+            </div>
+            <div class="stat-box">
+                <h3>2.150 KM 💶</h3>
+                <p>Ukupan Prihod</p>
+            </div>
+            <div class="stat-box">
+                <h3>1.350 KM 📉</h3>
+                <p>Ukupni Troškovi</p>
+            </div>
+            <div class="stat-box">
+                <h3 style="color: #22c55e;">+800 KM 📈</h3>
+                <p>Čist Saldo (Neto)</p>
+            </div>
+        </div>
+
+        <!-- Uvod -->
+        <div class="card">
+            <h2>📌 Uvod</h2>
+            <p>Ovaj izvještaj sumira aktivnosti pčelinjaka HamosBees tokom sezone 2026. godine — od vrcanja meda, preko prodaje i poklonjenih količina, do pregleda troškova i konačnog finansijskog bilansa. Cilj izvještaja je da pruži jasnu i preglednu sliku poslovanja pčelinjaka za ovu godinu, te da posluži kao osnova za planiranje naredne sezone.</p>
+            <p>Sva evidencija je preuzeta iz originalnih bilježaka vlasnika pčelinjaka i sređena u tabelarni i grafički oblik radi lakšeg praćenja.</p>
+            
+            <div class="notice">
+                <strong>⚠️ Napomena:</strong> Ovaj izvještaj je pregled onoga što je do sada uspješno evidentirano, a ne konačan i zatvoren obračun. Moguće je da su pojedine stavke — prodaje, pokloni ili troškovi — u međuvremenu zaboravljene ili nisu zapisane, pa ih naknadno možemo dopuniti. <em>Primjer: troškovi izrade pogača krajem februara (oko 50–70 kg šećera, koje je tada pokrila Remza) nisu uključeni u ovaj izvještaj jer nisu bili evidentirani u originalnim bilješkama.</em> Ko primijeti da nešto nedostaje, slobodno neka javi — izvještaj se može ažurirati.
+            </div>
+        </div>
+
+        <!-- 1. Vrcanje meda -->
+        <div class="card">
+            <h2>1. 🍯 Evidencija vrcanja meda</h2>
+            <p>Tokom 2026. godine med je vrcan u četiri navrata, u periodu od juna do septembra. Ukupno je proizvedeno <strong>308 kg (tegli) meda</strong>.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Datum vrcanja</th>
+                        <th>Količina</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>14. jun 2026.</td><td>52 kg / tegle</td></tr>
+                    <tr><td>4. i 5. jul 2026.</td><td>34 + 66 = 100 kg / tegle</td></tr>
+                    <tr><td>26. jul 2026.</td><td>44 kg / tegle</td></tr>
+                    <tr><td>5. septembar 2026.</td><td>112 kg / tegle</td></tr>
+                    <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4);"><td>UKUPNO VRCANO</td><td>308 kg / tegli</td></tr>
+                </tbody>
+            </table>
+
+            <div class="chart-container">
+                <canvas id="harvestChart"></canvas>
+            </div>
+            <p>Najveći pojedinačni prinos ostvaren je 5. septembra (112 kg), a ukupno vrcanje u julu (4.-5. i 26.) iznosilo je 144 kg — više od polovine ukupne godišnje proizvodnje.</p>
+        </div>
+
+        <!-- 2. Prodaja meda -->
+        <div class="card">
+            <h2>2. 💰 Prodaja meda</h2>
+            <p>Med je prodavan većem broju kupaca, u manjim i većim količinama. Ukupno je prodato <strong>86 tegli meda</strong>, u vrijednosti od <strong>2.150 KM</strong>.</p>
+            
+            <input type="text" id="customerSearch" class="search-bar" placeholder="🔍 Pretraži kupca po imenu u realnom vremenu..." onkeyup="filterCustomers()">
+            
+            <div style="max-height: 400px; overflow-y: auto;">
+                <table id="customerTable">
+                    <thead>
+                        <tr>
+                            <th>Kupac</th>
+                            <th>Tegle</th>
+                            <th>Iznos (KM)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Mare</td><td>2</td><td>50 KM</td></tr>
+                        <tr><td>Nizama i Mido</td><td>4</td><td>100 KM</td></tr>
+                        <tr><td>Lela i Tito</td><td>20</td><td>500 KM</td></tr>
+                        <tr><td>Emina (Lejla-Džudo)</td><td>10</td><td>250 KM</td></tr>
+                        <tr><td>Šef Miroslav</td><td>4</td><td>100 KM</td></tr>
+                        <tr><td>Ivica</td><td>2</td><td>50 KM</td></tr>
+                        <tr><td>Maja</td><td>4</td><td>100 KM</td></tr>
+                        <tr><td>Elma (Emmina)</td><td>2</td><td>50 KM</td></tr>
+                        <tr><td>Hamo (beogradski drug)</td><td>10</td><td>250 KM</td></tr>
+                        <tr><td>Armin Goražde</td><td>3</td><td>75 KM</td></tr>
+                        <tr><td>Armin Goražde</td><td>5</td><td>125 KM</td></tr>
+                        <tr><td>Pašić Hajrudin</td><td>1</td><td>25 KM</td></tr>
+                        <tr><td>Lela</td><td>4</td><td>100 KM</td></tr>
+                        <tr><td>Fikra</td><td>2</td><td>50 KM</td></tr>
+                        <tr><td>Emina (Elma)</td><td>2</td><td>50 KM</td></tr>
+                        <tr><td>Emina (Suada)</td><td>5</td><td>125 KM</td></tr>
+                        <tr><td>Mirza — Goražde Armin</td><td>5</td><td>125 KM</td></tr>
+                        <tr><td>Mare</td><td>1</td><td>25 KM</td></tr>
+                        <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4);"><td>UKUPNO PRODAJA</td><td>86 tegli</td><td>2.150 KM</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="margin-top: 15px;">Najveći pojedinačni kupac bili su Lela i Tito (20 tegli, 500 KM), a značajan udio u prodaji imaju i Hamo (beogradski drug) i Emina (Lejla-Džudo), svaki sa po 250 KM prometa.</p>
+        </div>
+
+        <!-- 3. Pokloni -->
+        <div class="card">
+            <h2>3. 🎁 Pokloni</h2>
+            <p>Pored prodaje, dio proizvedenog meda je poklonjen prijateljima, rodbini i saradnicima — ukupno <strong>31 tegla</strong>, uključujući i jednu veliku teglu od 2,5 kg. Poseban dio poklona (10 tegli) otišao je u Maleziju, na ruke Emine 🇲🇾.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Primalac</th>
+                        <th>Količina</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Lejla M.</td><td>1 tegla</td></tr>
+                    <tr><td>Emina Švica</td><td>1 tegla</td></tr>
+                    <tr><td>Mirza Pospo</td><td>2 tegle</td></tr>
+                    <tr><td>Mulija</td><td>1 tegla</td></tr>
+                    <tr><td>Mustafa</td><td>1 tegla</td></tr>
+                    <tr><td>Lela</td><td>2 tegle</td></tr>
+                    <tr><td>Trener</td><td>1 tegla</td></tr>
+                    <tr><td>Ismeta</td><td>1 tegla</td></tr>
+                    <tr><td>Hamo + Emina</td><td>1 tegla</td></tr>
+                    <tr><td>Suada</td><td>1 tegla</td></tr>
+                    <tr><td>Remza</td><td>2 tegle</td></tr>
+                    <tr><td>Hamo - Elma</td><td>2 tegle</td></tr>
+                    <tr><td>Hamo + Emina (velika tegla)</td><td>2,5 kg</td></tr>
+                    <tr><td>17.9. odneseno u Vlasenicu</td><td>2 tegle</td></tr>
+                    <tr><td>17.9. Emina — Malezija</td><td>10 tegli</td></tr>
+                    <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4);"><td>UKUPNO POKLONI</td><td>31 tegla (+ 2,5 kg velika tegla)</td></tr>
+                </tbody>
+            </table>
+            <p style="margin-top: 15px;">Pokloni predstavljaju važan dio tradicije pčelinjaka HamosBees — dijeljenje meda s najbližima i partnerima, što doprinosi i promociji samog pčelinjaka.</p>
+        </div>
+
+        <!-- 4. Troškovi -->
+        <div class="card">
+            <h2>4. 📉 Troškovi</h2>
+            <p>Troškovi vođenja pčelinjaka u 2026. godini odnosili su se prvenstveno na hranu za pčele (šećer), opremu, zdravstvenu zaštitu (lijekovi protiv varoe), ambalažu i promociju.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Stavka troška</th>
+                        <th>Iznos (KM)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Hranilice sa pojilicama + lijekovi za varou</td><td>240</td></tr>
+                    <tr><td>2 vreće šećera (ja i Remza)</td><td>120</td></tr>
+                    <tr><td>3 vreće šećera</td><td>198</td></tr>
+                    <tr><td>1 vreća šećera (Mirza)</td><td>64</td></tr>
+                    <tr><td>2 vreće šećera (Mirza)</td><td>132</td></tr>
+                    <tr><td>3x etikete</td><td>120</td></tr>
+                    <tr><td>100 tegli (ambalaža)</td><td>100</td></tr>
+                    <tr><td>Web stranica</td><td>100</td></tr>
+                    <tr><td>20.9. — 50 kg šećera</td><td>75</td></tr>
+                    <tr><td>18.9. — etikete (50 komada)</td><td>30</td></tr>
+                    <tr><td>17.9. — ambalaža, kese</td><td>20</td></tr>
+                    <tr><td>Hamo — 5 matica</td><td>100</td></tr>
+                    <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4);"><td>UKUPNO TROŠKOVI (evidentirano)</td><td>1.350 KM</td></tr>
+                </tbody>
+            </table>
+
+            <div class="chart-container">
+                <canvas id="expenseChart"></canvas>
+            </div>
+
+            <div class="notice" style="margin-top: 15px;">
+                <strong>Napomena:</strong> Zbir pojedinačnih evidentiranih stavki troškova iznosi 1.299 KM, dok je ukupan iznos u originalnoj evidenciji naveden kao 1.350 KM. Preporuka je da se pri sljedećem ažuriranju provjeri da li nedostaje neka stavka (razlika od 51 KM), radi potpune preciznosti knjigovodstva.
+            </div>
+        </div>
+
+        <!-- 5. Finansijski bilans -->
+        <div class="card">
+            <h2>5. 📊 Finansijski bilans</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Stavka</th>
+                        <th>Iznos (KM)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Ukupan prihod od prodaje</td><td>2.150 KM</td></tr>
+                    <tr><td>Ukupni troškovi</td><td>1.350 KM</td></tr>
+                    <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4); color: #22c55e;"><td>ČIST SALDO (NETO)</td><td>+800 KM</td></tr>
+                </tbody>
+            </table>
+
+            <div class="chart-container">
+                <canvas id="financialChart"></canvas>
+            </div>
+
+            <!-- Simulator dobiti -->
+            <div class="simulator">
+                <h3>🎛️ Interaktivni Simulator Dobiti</h3>
+                <label for="extraSales">Unesi dodatnu prodaju ili trošak (u KM):</label>
+                <input type="number" id="extraSales" value="0" placeholder="Npr. 250 ili -50" oninput="calculateNewProfit()">
+                <p style="margin-top: 10px; font-size: 1.05rem;">Novi Procijenjeni Čist Saldo: <strong id="simulatedProfit" style="color: #22c55e;">800 KM</strong></p>
+            </div>
+
+            <p style="margin-top: 15px;">Pčelinjak je 2026. godinu završio s pozitivnim rezultatom od <strong>+800 KM</strong>, uz napomenu da vrijednost poklonjenog meda (31 tegla) nije uračunata u prihod, iako predstavlja stvarnu proizvedenu vrijednost pčelinjaka.</p>
+        </div>
+
+        <!-- 6. Preporuke i trikovi -->
+        <div class="card">
+            <h2>6. 💡 Preporuke i trikovi za sezonu 2027.</h2>
+            
+            <h3>🐝 Zdravlje pčelinjeg društva</h3>
+            <ul>
+                <li>Tretman protiv varoe planirati u dva navrata — rano proljeće i kasno ljeto (nakon zadnjeg vrcanja), kako bi pčele ušle u zimu što zdravije.</li>
+                <li>Redovno pratiti prirodni mort na podnjači kao rani indikator zaraze varoom ili gladovanja.</li>
+            </ul>
+
+            <h3>🍯 Prihrana i priprema za zimu</h3>
+            <ul>
+                <li>Na osnovu ove sezone (589 KM potrošeno na šećer), isplati se šećer kupovati na veliko prije jeseni — cijena po vreći je niža, a potražnja u septembru raste.</li>
+                <li>Prihranu započeti odmah nakon zadnjeg vrcanja (u 2026. to je bilo 5. septembra) kako bi pčele imale dovoljno vremena da prerade zalihe prije hladnijih dana.</li>
+            </ul>
+
+            <h3>📦 Ambalaža i troškovi</h3>
+            <ul>
+                <li>Etikete i tegle kupovati u većim količinama unaprijed (kao što je urađeno sa 100 tegli za 100 KM) — jedinična cijena pri kupovini na veliko je znatno povoljnija.</li>
+                <li>Voditi jedinstvenu evidenciju (npr. u tabeli ili aplikaciji) tokom cijele godine kako bi se izbjegle sitne razlike poput one uočene u troškovima ove godine.</li>
+            </ul>
+
+            <h3>💰 Prodaja i promocija</h3>
+            <ul>
+                <li>Stalni kupci (Lela i Tito, Emina, Hamo) čine osnovu prihoda — vrijedi im ponuditi rane rezervacije za sljedeću sezonu, prije nego što se med rasproda.</li>
+                <li>Web stranica (investicija od 100 KM) može se iskoristiti za najavu datuma vrcanja i online narudžbe, čime se rasterećuje prodaja "od usta do usta".</li>
+                <li>Razmisliti o uvođenju manjih poklon-pakovanja za nove kontakte — pokloni su ove godine odigrali važnu ulogu u širenju mreže (npr. slanje meda u Maleziju).</li>
+            </ul>
+
+            <h3>📅 Planiranje vrcanja</h3>
+            <ul>
+                <li>U 2026. najveći prinos je ostvaren u septembru (112 kg) — vrijedi analizirati pčelinju pašu u tom periodu i eventualno ponoviti raspored vrcanja u istim terminima i naredne godine.</li>
+                <li>Kraće razmake između vrcanja (kao 4.-5. jul) koristiti kada se očekuje obilna paša, kako se saće ne bi prepunilo prije vrcanja.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>HamosBees — Sarajevo, Ulica Svetozara Ćorovića 3 | Hvala što pratite naš pčelinjak! 🐝🍯</p>
+    </footer>
+
+    <script>
+        const harvestCtx = document.getElementById('harvestChart').getContext('2d');
+        new Chart(harvestCtx, {
+            type: 'line',
+            data: {
+                labels: ['14. jun', '4.-5. jul', '26. jul', '5. septembar'],
+                datasets: [{
+                    label: 'Proizvedeno (kg / tegle)',
+                    data: [52, 100, 44, 112],
+                    borderColor: '#f59e0b',
+                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    borderWidth: 3,
+                    pointRadius: 6,
+                    pointBackgroundColor: '#d97706'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+                    x: { grid: { display: false }, ticks: { color: '#f8fafc' } }
+                }
+            }
+        });
+
+        const expenseCtx = document.getElementById('expenseChart').getContext('2d');
+        new Chart(expenseCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Šećer (vreće)', 'Ambalaža i etikete', 'Oprema i lijekovi za varou', 'Matice (Hamo)', 'Web stranica'],
+                datasets: [{
+                    data: [589, 270, 240, 100, 100],
+                    backgroundColor: ['#d97706', '#65a30d', '#78350f', '#9a3412', '#b45309'],
+                    borderWidth: 1,
+                    borderColor: '#1e293b'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#f8fafc', boxWidth: 15 } }
+                }
+            }
+        });
+
+        const finCtx = document.getElementById('financialChart').getContext('2d');
+        new Chart(finCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Prihod od prodaje', 'Ukupni troškovi', 'Neto rezultat'],
+                datasets: [{
+                    label: 'Iznos u KM',
+                    data: [2150, 1350, 800],
+                    backgroundColor: ['#65a30d', '#c2410c', '#d97706'],
+                    borderWidth: 0,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+                    x: { grid: { display: false }, ticks: { color: '#f8fafc' } }
+                }
+            }
+        });
+
+        function calculateNewProfit() {
+            const extra = parseFloat(document.getElementById('extraSales').value) || 0;
+            const baseProfit = 800;
+            const newTotal = baseProfit + extra;
+            document.getElementById('simulatedProfit').innerText = newTotal + ' KM';
+        }
+
+        function filterCustomers() {
+            let input = document.getElementById('customerSearch').value.toLowerCase();
+            let table = document.getElementById('customerTable');
+            let tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length - 1; i++) {
+                let td = tr[i].getElementsByTagName('td')[0];
+                if (td) {
+                    let txtValue = td.textContent || td.innerText;
+                    if (txtValue.toLowerCase().indexOf(input) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
