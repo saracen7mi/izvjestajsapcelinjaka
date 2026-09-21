@@ -168,15 +168,21 @@
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid var(--border);
+            user-select: none;
+        }
+
+        .deletable-row {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .deletable-row:hover {
+            background-color: rgba(239, 68, 68, 0.15);
         }
 
         th {
             color: var(--accent);
             background-color: rgba(15, 23, 42, 0.4);
-        }
-
-        tr:hover {
-            background-color: rgba(255,255,255,0.02);
         }
 
         ul {
@@ -248,7 +254,7 @@
             <p>Sva evidencija je preuzeta iz originalnih bilježaka vlasnika pčelinjaka i sređena u tabelarni i grafički oblik radi lakšeg praćenja.</p>
             
             <div class="notice">
-                <strong>⚠️ Napomena:</strong> Ovaj izvještaj je pregled onoga što je do sada uspješno evidentirano, a ne konačan i zatvoren obračun. Moguće je da su pojedine stavke — prodaje, pokloni ili troškovi — u međuvremenu zaboravljene ili nisu zapisane, pa ih naknadno možemo dopuniti. <em>Primjer: troškovi izrade pogača krajem februara (oko 50–70 kg šećera, koje je tada pokrila Remza) nisu uključeni u ovaj izvještaj jer nisu bili evidentirani u originalnim bilješkama.</em> Ko primijeti da nešto nedostaje, slobodno neka javi — izvještaj se može ažurirati direktno putem dodanih formi ispod.
+                <strong>⚠️ Napomena:</strong> Ovaj izvještaj je pregled onoga što je do sada uspješno evidentirano, a ne konačan i zatvoren obračun. Možeš direktno dodavati nove stavke u forme ispod, a ako želiš **obrisati neki uneseni red** u tabelama prodaje ili poklona, dovoljno je da **zadržiš prst (ili klikneš dva puta)** na taj red.
             </div>
         </div>
 
@@ -286,7 +292,7 @@
             
             <!-- Interaktivna forma za unos nove prodaje -->
             <div class="simulator">
-                <h3>➕ Unesi novu prodaju meda (Ažurira izvještaj automatski)</h3>
+                <h3>➕ Unesi novu prodaju meda</h3>
                 <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 10px; align-items: flex-end;">
                     <div>
                         <label>Ime kupca:</label>
@@ -312,30 +318,30 @@
                 <table id="customerTable">
                     <thead>
                         <tr>
-                            <th>Kupac</th>
+                            <th>Kupac (Dugi klik za brisanje)</th>
                             <th>Tegle</th>
                             <th>Iznos (KM)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>Mare</td><td>2</td><td>50 KM</td></tr>
-                        <tr><td>Nizama i Mido</td><td>4</td><td>100 KM</td></tr>
-                        <tr><td>Lela i Tito</td><td>20</td><td>500 KM</td></tr>
-                        <tr><td>Emina (Lejla-Džudo)</td><td>10</td><td>250 KM</td></tr>
-                        <tr><td>Šef Miroslav</td><td>4</td><td>100 KM</td></tr>
-                        <tr><td>Ivica</td><td>2</td><td>50 KM</td></tr>
-                        <tr><td>Maja</td><td>4</td><td>100 KM</td></tr>
-                        <tr><td>Elma (Emmina)</td><td>2</td><td>50 KM</td></tr>
-                        <tr><td>Hamo (beogradski drug)</td><td>10</td><td>250 KM</td></tr>
-                        <tr><td>Armin Goražde</td><td>3</td><td>75 KM</td></tr>
-                        <tr><td>Armin Goražde</td><td>5</td><td>125 KM</td></tr>
-                        <tr><td>Pašić Hajrudin</td><td>1</td><td>25 KM</td></tr>
-                        <tr><td>Lela</td><td>4</td><td>100 KM</td></tr>
-                        <tr><td>Fikra</td><td>2</td><td>50 KM</td></tr>
-                        <tr><td>Emina (Elma)</td><td>2</td><td>50 KM</td></tr>
-                        <tr><td>Emina (Suada)</td><td>5</td><td>125 KM</td></tr>
-                        <tr><td>Mirza — Goražde Armin</td><td>5</td><td>125 KM</td></tr>
-                        <tr><td>Mare</td><td>1</td><td>25 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Mare</td><td>2</td><td>50 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Nizama i Mido</td><td>4</td><td>100 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Lela i Tito</td><td>20</td><td>500 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Emina (Lejla-Džudo)</td><td>10</td><td>250 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Šef Miroslav</td><td>4</td><td>100 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Ivica</td><td>2</td><td>50 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Maja</td><td>4</td><td>100 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Elma (Emmina)</td><td>2</td><td>50 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Hamo (beogradski drug)</td><td>10</td><td>250 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Armin Goražde</td><td>3</td><td>75 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Armin Goražde</td><td>5</td><td>125 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Pašić Hajrudin</td><td>1</td><td>25 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Lela</td><td>4</td><td>100 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Fikra</td><td>2</td><td>50 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Emina (Elma)</td><td>2</td><td>50 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Emina (Suada)</td><td>5</td><td>125 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Mirza — Goražde Armin</td><td>5</td><td>125 KM</td></tr>
+                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Mare</td><td>1</td><td>25 KM</td></tr>
                         <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4);" id="totalSalesRow"><td>UKUPNO PRODAJA</td><td>86 tegli</td><td>2.150 KM</td></tr>
                     </tbody>
                 </table>
@@ -369,26 +375,26 @@
             <table id="giftTable" style="margin-top: 20px;">
                 <thead>
                     <tr>
-                        <th>Primalac</th>
+                        <th>Primalac (Dugi klik za brisanje)</th>
                         <th>Količina</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Lejla M.</td><td>1 tegla</td></tr>
-                    <tr><td>Emina Švica</td><td>1 tegla</td></tr>
-                    <tr><td>Mirza Pospo</td><td>2 tegle</td></tr>
-                    <tr><td>Mulija</td><td>1 tegla</td></tr>
-                    <tr><td>Mustafa</td><td>1 tegla</td></tr>
-                    <tr><td>Lela</td><td>2 tegle</td></tr>
-                    <tr><td>Trener</td><td>1 tegla</td></tr>
-                    <tr><td>Ismeta</td><td>1 tegla</td></tr>
-                    <tr><td>Hamo + Emina</td><td>1 tegla</td></tr>
-                    <tr><td>Suada</td><td>1 tegla</td></tr>
-                    <tr><td>Remza</td><td>2 tegle</td></tr>
-                    <tr><td>Hamo - Elma</td><td>2 tegle</td></tr>
-                    <tr><td>Hamo + Emina (velika tegla)</td><td>2,5 kg</td></tr>
-                    <tr><td>17.9. odneseno u Vlasenicu</td><td>2 tegle</td></tr>
-                    <tr><td>17.9. Emina — Malezija</td><td>10 tegli</td></tr>
+                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Lejla M.</td><td>1 tegla</td></tr>
+                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Emina Švica</td><td>1 tegla</td></tr>
+                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Mirza Pospo</td><td>2 tegle</td></tr>
+                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Mulija</td><td>1 tegla</td></tr>
+                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Mustafa</td><td>1 tegla</td></tr>
+                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Lela</td><td>2 tegle</td></tr>
+                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Trener</td><td>1 tegla</td></tr>
+                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Ismeta</td><td>1 tegla</td></tr>
+                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Hamo + Emina</td><td>1 tegla</td></tr>
+                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Suada</td><td>1 tegla</td></tr>
+                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Remza</td><td>2 tegle</td></tr>
+                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Hamo - Elma</td><td>2 tegle</td></tr>
+                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Hamo + Emina (velika tegla)</td><td>2,5 kg</td></tr>
+                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>17.9. odneseno u Vlasenicu</td><td>2 tegle</td></tr>
+                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>17.9. Emina — Malezija</td><td>10 tegli</td></tr>
                     <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4);"><td>UKUPNO POKLONI</td><td>31 tegla (+ 2,5 kg velika tegla)</td></tr>
                 </tbody>
             </table>
@@ -454,15 +460,7 @@
                 <canvas id="financialChart"></canvas>
             </div>
 
-            <!-- Simulator dobiti -->
-            <div class="simulator">
-                <h3>🎛️ Interaktivni Simulator Dobiti</h3>
-                <label for="extraSales">Unesi dodatnu prodaju ili trošak (u KM):</label>
-                <input type="number" id="extraSales" value="0" placeholder="Npr. 250 ili -50" oninput="calculateNewProfit()">
-                <p style="margin-top: 10px; font-size: 1.05rem;">Novi Procijenjeni Čist Saldo: <strong id="simulatedProfit" style="color: #22c55e;">800 KM</strong></p>
-            </div>
-
-            <p style="margin-top: 15px;">Pčelinjak je 2026. godinu završio s pozitivnim rezultatom od <strong id="summaryNet">+800 KM</strong>, uz napomenu da vrijednost poklonjenog meda (31 tegla) nije uračunata u prihod, iako predstavlja stvarnu proizvedenu vrijednost pčelinjaka.</p>
+            <p style="margin-top: 20px;">Pčelinjak je 2026. godinu završio s pozitivnim rezultatom od <strong id="summaryNet">+800 KM</strong>, uz napomenu da vrijednost poklonjenog meda (31 tegla) nije uračunata u prihod, iako predstavlja stvarnu proizvedenu vrijednost pčelinjaka.</p>
         </div>
 
         <!-- 6. Preporuke i trikovi -->
@@ -508,7 +506,7 @@
     </footer>
 
     <script>
-        // Inicijalizacija grafikonā
+        // Inicijalizacija grafikona
         const harvestCtx = document.getElementById('harvestChart').getContext('2d');
         const harvestChart = new Chart(harvestCtx, {
             type: 'line',
@@ -589,7 +587,6 @@
 
         function calcPrice() {
             let jars = document.getElementById('newJars').value;
-            // Standardna cijena 25 KM po tegli ukoliko se ne unese drugačije
             document.getElementById('newAmount').value = jars * 25;
         }
 
@@ -606,16 +603,39 @@
             let table = document.getElementById('customerTable');
             let tbody = table.getElementsByTagName('tbody')[0];
             
-            // Ubaci novi red iznad zadnjeg reda (UKUPNO)
             let newRow = tbody.insertRow(tbody.rows.length - 1);
+            newRow.className = "deletable-row";
+            newRow.setAttribute("onmousedown", "startLongPress(event, this)");
+            newRow.setAttribute("onttouchstart", "startLongPress(event, this)");
+            newRow.setAttribute("ondblclick", "deleteSaleRow(this)");
             newRow.innerHTML = `<td>${customer}</td><td>${jars}</td><td>${amount} KM</td>`;
 
-            // Ažuriraj finansijske metrike
             totalRevenue += amount;
             totalJarsSold += jars;
+            updateFinancials();
+
+            document.getElementById('newCustomer').value = '';
+            document.getElementById('newJars').value = '';
+            document.getElementById('newAmount').value = '';
+            
+            alert("✅ Uspješno dodata nova prodaja!");
+        }
+
+        function deleteSaleRow(row) {
+            let jarsCell = parseInt(row.cells[1].innerText) || 0;
+            let amountText = row.cells[2].innerText;
+            let amountCell = parseFloat(amountText.replace(' KM', '')) || 0;
+
+            totalRevenue -= amountCell;
+            totalJarsSold -= jarsCell;
+            row.remove();
+            updateFinancials();
+            alert("🗑️ Stavka prodaje obrisana i bilans ažuriran!");
+        }
+
+        function updateFinancials() {
             let newNet = totalRevenue - totalExpenses;
 
-            // Osvježi kartice na vrhu
             document.getElementById('statRevenue').innerText = totalRevenue + ' KM 💶';
             document.getElementById('statNet').innerText = (newNet >= 0 ? '+' : '') + newNet + ' KM 📈';
             document.getElementById('totalJarsCount').innerText = totalJarsSold + ' tegli meda';
@@ -624,22 +644,13 @@
             document.getElementById('tableNet').innerText = (newNet >= 0 ? '+' : '') + newNet + ' KM';
             document.getElementById('summaryNet').innerText = (newNet >= 0 ? '+' : '') + newNet + ' KM';
 
-            // Ažuriraj red UKUPNO u tabeli prodaje
             let totalRow = document.getElementById('totalSalesRow');
             totalRow.cells[1].innerText = totalJarsSold + ' tegli';
             totalRow.cells[2].innerText = totalRevenue + ' KM';
 
-            // Osvježi bar dijagram
             financialChart.data.datasets[0].data[0] = totalRevenue;
             financialChart.data.datasets[0].data[2] = newNet;
             financialChart.update();
-
-            // Očisti formu
-            document.getElementById('newCustomer').value = '';
-            document.getElementById('newJars').value = '';
-            document.getElementById('newAmount').value = '';
-            
-            alert("✅ Uspješno dodata nova prodaja! Izvještaj i grafikoni su automatski ažurirani.");
         }
 
         function addGift() {
@@ -655,19 +666,43 @@
             let tbody = table.getElementsByTagName('tbody')[0];
 
             let newRow = tbody.insertRow(tbody.rows.length - 1);
+            newRow.className = "deletable-row";
+            newRow.setAttribute("onmousedown", "startLongPress(event, this)");
+            newRow.setAttribute("onttouchstart", "startLongPress(event, this)");
+            newRow.setAttribute("ondblclick", "this.remove()");
             newRow.innerHTML = `<td>${receiver}</td><td>${qty}</td>`;
 
             document.getElementById('newGiftReceiver').value = '';
             document.getElementById('newGiftQty').value = '';
 
-            alert("🎁 Poklon je uspješno zabilježen u izvještaj!");
+            alert("🎁 Poklon uspješno zabilježen!");
         }
 
-        function calculateNewProfit() {
-            const extra = parseFloat(document.getElementById('extraSales').value) || 0;
-            const baseProfit = totalRevenue - totalExpenses;
-            const newTotal = baseProfit + extra;
-            document.getElementById('simulatedProfit').innerText = newTotal + ' KM';
+        // Funkcija za podršku dugog držanja (long-press) za brisanje redova na mobitelu i računaru
+        let pressTimer;
+        function startLongPress(e, row) {
+            // Ako je red sa ukupno, ne diraj ga
+            if (row.id === 'totalSalesRow' || row.cells[0].innerText.includes('UKUPNO')) return;
+
+            pressTimer = setTimeout(() => {
+                if (confirm("Želite li obrisati ovu stavku?")) {
+                    if (row.parentElement.parentElement.id === 'customerTable') {
+                        deleteSaleRow(row);
+                    } else {
+                        row.remove();
+                        alert("🗑️ Poklon obrisan!");
+                    }
+                }
+            }, 800); // 800 milisekundi držanja
+
+            const cancelPress = () => {
+                clearTimeout(pressTimer);
+                window.removeEventListener('mouseup', cancelPress);
+                window.removeEventListener('touchend', cancelPress);
+            };
+
+            window.addEventListener('mouseup', cancelPress);
+            window.addEventListener('touchend', cancelPress);
         }
 
         function filterCustomers() {
