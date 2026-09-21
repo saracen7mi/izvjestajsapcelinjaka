@@ -301,7 +301,7 @@
             <p>Ukupno prodatog meda: <strong id="totalJarsCount">0 tegli</strong>, u vrijednosti od <strong id="totalRevenueText">0 KM</strong>.</p>
             
             <!-- Forma za unos prodaje -->
-            <form id="saleForm" action="https://script.google.com/macros/s/AKfycbzlCNMt3WPZSthOxCt1hWfK8HAA1e7Bxai1X6Ib-Mrw2GBSM_QmaSM5CmV0ACqQv9tW/exec" method="GET" target="hidden_iframe" class="simulator" onsubmit="triggerSubmit()">
+            <form id="saleForm" action="https://script.google.com/macros/s/AKfycbw8BHXZbeegjVTUJtsMhuQWR5duWbA4dXsUx6fFp2PE-xX0CrBcDMrQNU9UyyNu7e5z/exec" method="GET" target="hidden_iframe" class="simulator" onsubmit="triggerSubmit()">
                 <input type="hidden" name="action" value="addSale">
                 <h3>➕ Unesi novu prodaju meda</h3>
                 <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 10px; align-items: flex-end;">
@@ -347,7 +347,7 @@
             <p>Ukupno poklonjeno: <strong id="totalGiftText">0 tegli</strong></p>
             
             <!-- Forma za unos poklona sa parametrima primalac i kolicina -->
-            <form id="giftForm" action="https://script.google.com/macros/s/AKfycbzlCNMt3WPZSthOxCt1hWfK8HAA1e7Bxai1X6Ib-Mrw2GBSM_QmaSM5CmV0ACqQv9tW/exec" method="GET" target="hidden_iframe" class="simulator" onsubmit="triggerSubmit()">
+            <form id="giftForm" action="https://script.google.com/macros/s/AKfycbw8BHXZbeegjVTUJtsMhuQWR5duWbA4dXsUx6fFp2PE-xX0CrBcDMrQNU9UyyNu7e5z/exec" method="GET" target="hidden_iframe" class="simulator" onsubmit="triggerSubmit()">
                 <input type="hidden" name="action" value="addGift">
                 <h3>🎁 Evidentiraj novi poklon</h3>
                 <div style="display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 10px; align-items: flex-end;">
@@ -430,52 +430,12 @@
 
     <script>
         // Tvoj novi SCRIPT URL
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzlCNMt3WPZSthOxCt1hWfK8HAA1e7Bxai1X6Ib-Mrw2GBSM_QmaSM5CmV0ACqQv9tW/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw8BHXZbeegjVTUJtsMhuQWR5duWbA4dXsUx6fFp2PE-xX0CrBcDMrQNU9UyyNu7e5z/exec";
 
         let salesData = [];
         let giftsData = [];
         let isSubmitting = false;
         const totalExpenses = 1350;
-
-        // Rezervni spisak sa svim originalnim podacima
-        const defaultSales = [
-            { customer: "Mare", jars: 2, amount: 50 },
-            { customer: "Nizama i Mido", jars: 4, amount: 100 },
-            { customer: "Lela i Tito", jars: 20, amount: 500 },
-            { customer: "Emina (Lejla-Džudo)", jars: 10, amount: 250 },
-            { customer: "Šef Miroslav", jars: 4, amount: 100 },
-            { customer: "Ivica", jars: 2, amount: 50 },
-            { customer: "Maja", jars: 4, amount: 100 },
-            { customer: "Elma (Emmina)", jars: 2, amount: 50 },
-            { customer: "Hamo (beogradski drug)", jars: 10, amount: 250 },
-            { customer: "Armin Goražde", jars: 3, amount: 75 },
-            { customer: "Armin Goražde", jars: 5, amount: 125 },
-            { customer: "Pašić Hajrudin", jars: 1, amount: 25 },
-            { customer: "Lela", jars: 4, amount: 100 },
-            { customer: "Fikra", jars: 2, amount: 50 },
-            { customer: "Emina (Elma)", jars: 2, amount: 50 },
-            { customer: "Emina (Suada)", jars: 5, amount: 125 },
-            { customer: "Mirza — Goražde Armin", jars: 5, amount: 125 },
-            { customer: "Mare", jars: 1, amount: 25 }
-        ];
-
-        const defaultGifts = [
-            { receiver: "Lejla M.", qty: "1 tegla" },
-            { receiver: "Emina Švica", qty: "1 tegla" },
-            { receiver: "Mirza Pospo", qty: "2 tegle" },
-            { receiver: "Mulija", qty: "1 tegla" },
-            { receiver: "Mustafa", qty: "1 tegla" },
-            { receiver: "Lela", qty: "2 tegle" },
-            { receiver: "Trener", qty: "1 tegla" },
-            { receiver: "Ismeta", qty: "1 tegla" },
-            { receiver: "Hamo + Emina", qty: "1 tegla" },
-            { receiver: "Suada", qty: "1 tegla" },
-            { receiver: "Remza", qty: "2 tegle" },
-            { receiver: "Hamo - Elma", qty: "2 tegle" },
-            { receiver: "Hamo + Emina (velika tegla)", qty: "2,5 kg" },
-            { receiver: "17.9. odneseno u Vlasenicu", qty: "2 tegle" },
-            { receiver: "17.9. Emina — Malezija", qty: "10 tegli" }
-        ];
 
         // Grafikoni
         const harvestCtx = document.getElementById('harvestChart').getContext('2d');
@@ -519,22 +479,19 @@
         });
 
         function loadDataFromSheet() {
+            document.getElementById('loadingOverlay').innerText = 'Učitavanje podataka iz Google tabele... ⏳';
             fetch(SCRIPT_URL)
                 .then(response => response.json())
                 .then(data => {
-                    salesData = (data.sales && data.sales.length > 0) ? data.sales : defaultSales;
-                    giftsData = (data.gifts && data.gifts.length > 0) ? data.gifts : defaultGifts;
+                    salesData = data.sales || [];
+                    giftsData = data.gifts || [];
                     renderTables();
                     document.getElementById('loadingOverlay').style.display = 'none';
                     document.getElementById('customerTable').style.display = 'table';
                 })
                 .catch(error => {
-                    console.error("Koristim rezervne podatke zbog mrežne greške:", error);
-                    salesData = defaultSales;
-                    giftsData = defaultGifts;
-                    renderTables();
-                    document.getElementById('loadingOverlay').style.display = 'none';
-                    document.getElementById('customerTable').style.display = 'table';
+                    console.error("Greška pri učitavanju podataka iz Google tabele:", error);
+                    document.getElementById('loadingOverlay').innerText = '⚠️ Greška pri učitavanju podataka. Osvježite stranicu ili pokušajte kasnije.';
                 });
         }
 
