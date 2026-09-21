@@ -190,22 +190,6 @@
             background: #dc2626;
         }
 
-        .btn-reset {
-            background: #64748b;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.85rem;
-            margin-bottom: 15px;
-        }
-
-        .btn-reset:hover {
-            background: #475569;
-        }
-
         ul {
             padding-left: 20px;
         }
@@ -237,6 +221,13 @@
         .btn-action:hover {
             background: var(--accent-hover);
         }
+
+        #loadingOverlay {
+            text-align: center;
+            color: var(--accent);
+            font-weight: bold;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
@@ -255,7 +246,7 @@
                 <p>Ukupno Vrcano Meda</p>
             </div>
             <div class="stat-box">
-                <h3 id="statRevenue">2.150 KM 💶</h3>
+                <h3 id="statRevenue">... 💶</h3>
                 <p>Ukupan Prihod</p>
             </div>
             <div class="stat-box">
@@ -263,7 +254,7 @@
                 <p>Ukupni Troškovi</p>
             </div>
             <div class="stat-box">
-                <h3 id="statNet" style="color: #22c55e;">+800 KM 📈</h3>
+                <h3 id="statNet" style="color: #22c55e;">... 📈</h3>
                 <p>Čist Saldo (Neto)</p>
             </div>
         </div>
@@ -272,12 +263,10 @@
         <div class="card">
             <h2>📌 Uvod</h2>
             <p>Ovaj izvještaj sumira aktivnosti pčelinjaka HamosBees tokom sezone 2026. godine — od vrcanja meda, preko prodaje i poklonjenih količina, do pregleda troškova i konačnog finansijskog bilansa. Cilj izvještaja je da pruži jasnu i preglednu sliku poslovanja pčelinjaka za ovu godinu, te da posluži kao osnova za planiranje naredne sezone.</p>
-            <p>Sva evidencija je preuzeta iz originalnih bilježaka vlasnika pčelinjaka i sređena u tabelarni i grafički oblik radi lakšeg praćenja.</p>
+            <p>Sva evidencija se sada automatski sinhronizuje sa centralnom Google tabelom u realnom vremenu!</p>
             
             <div class="notice">
-                <strong>💾 Automatsko čuvanje:</strong> Sve izmjene, dodavanja i brisanja sada se automatski čuvaju u memoriji tvog pretraživača. Ako želiš vratiti na fabričke postavke, možeš kliknuti dugme ispod.
-                <br><br>
-                <button class="btn-reset" onclick="resetData()">🔄 Vrati na početne podatke</button>
+                <strong>☁️ Google Sheets Sinhronizacija:</strong> Svaka izmjena, dodavanje ili brisanje automatski se bilježi u zajedničku tabelu, tako da ti i Lejla uvijek vidite iste podatke preko linka.
             </div>
         </div>
 
@@ -311,7 +300,7 @@
         <!-- 2. Prodaja meda -->
         <div class="card">
             <h2>2. 💰 Prodaja meda</h2>
-            <p>Med je prodavan većem broju kupaca, u manjim i većim količinama. Ukupno je prodato <strong id="totalJarsCount">86 tegli meda</strong>, u vrijednosti od <strong id="totalRevenueText">2.150 KM</strong>.</p>
+            <p>Med je prodavan većem broju kupaca, u manjim i većim količinama. Ukupno je prodato <strong id="totalJarsCount">... tegli meda</strong>, u vrijednosti od <strong id="totalRevenueText">... KM</strong>.</p>
             
             <!-- Interaktivna forma za unos nove prodaje -->
             <div class="simulator">
@@ -338,7 +327,8 @@
             <input type="text" id="customerSearch" class="search-bar" style="margin-top: 20px;" placeholder="🔍 Pretraži kupca po imenu u realnom vremenu..." onkeyup="filterCustomers()">
             
             <div style="max-height: 400px; overflow-y: auto;">
-                <table id="customerTable">
+                <div id="loadingOverlay">Učitavanje podataka iz Google tabele... ⏳</div>
+                <table id="customerTable" style="display:none;">
                     <thead>
                         <tr>
                             <th>Kupac</th>
@@ -348,17 +338,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Dinamički se popunjava iz localStorage ili defaulta -->
+                        <!-- Dinamički se puni iz Google Sheets-a -->
                     </tbody>
                 </table>
             </div>
-            <p style="margin-top: 15px;">Najveći pojedinačni kupac bili su Lela i Tito (20 tegli, 500 KM), a značajan udio u prodaji imaju i Hamo (beogradski drug) i Emina (Lejla-Džudo), svaki sa po 250 KM prometa.</p>
+            <p style="margin-top: 15px;">Najveći pojedinačni kupac bili su Lela i Tito, a značajan udio u prodaji imaju i stalni partneri pčelinjaka.</p>
         </div>
 
         <!-- 3. Pokloni -->
         <div class="card">
             <h2>3. 🎁 Pokloni</h2>
-            <p>Pored prodaje, dio proizvedenog meda je poklonjen prijateljima, rodbini i saradnicima — ukupno <strong id="totalGiftText">31 tegla (+ 2,5 kg velika tegla)</strong>, uključujući i jednu veliku teglu od 2,5 kg. Poseban dio poklona (10 tegli) otišao je u Maleziju, na ruke Emine 🇲🇾.</p>
+            <p>Pored prodaje, dio proizvedenog meda je poklonjen prijateljima, rodbini i saradnicima — ukupno <strong id="totalGiftText">...</strong>.</p>
             
             <!-- Interaktivna forma za unos novog poklona -->
             <div class="simulator">
@@ -387,7 +377,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Dinamički se popunjava iz localStorage ili defaulta -->
+                    <!-- Dinamički se puni iz Google Sheets-a -->
                 </tbody>
             </table>
             <p style="margin-top: 15px;">Pokloni predstavljaju važan dio tradicije pčelinjaka HamosBees — dijeljenje meda s najbližima i partnerima, što doprinosi i promociji samog pčelinjaka.</p>
@@ -406,17 +396,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Hranilice sa pojilicama + lijekovi za varou(Mirza)</td><td>240</td></tr>
-                    <tr><td>2 vreće šećera (Mirza i Remza)</td><td>120</td></tr>
-                    <tr><td>3 vreće šećera(Mirza)</td><td>198</td></tr>
+                    <tr><td>Hranilice sa pojilicama + lijekovi za varou</td><td>240</td></tr>
+                    <tr><td>2 vreće šećera (ja i Remza)</td><td>120</td></tr>
+                    <tr><td>3 vreće šećera</td><td>198</td></tr>
                     <tr><td>1 vreća šećera (Mirza)</td><td>64</td></tr>
                     <tr><td>2 vreće šećera (Mirza)</td><td>132</td></tr>
-                    <tr><td>3x etikete(Mirza)</td><td>120</td></tr>
-                    <tr><td>100 tegli (ambalaža Hamo+Emina)</td><td>100</td></tr>
-                    <tr><td>Web stranica(Mirza)</td><td>100</td></tr>
-                    <tr><td>20.9. — 50 kg šećera(Mirza)</td><td>75</td></tr>
-                    <tr><td>18.9. — etikete (50 com. Mirza )</td><td>30</td></tr>
-                    <tr><td>17.9. — ambalaža, kese(Mirza) </td><td>20</td></tr>
+                    <tr><td>3x etikete</td><td>120</td></tr>
+                    <tr><td>100 tegli (ambalaža)</td><td>100</td></tr>
+                    <tr><td>Web stranica</td><td>100</td></tr>
+                    <tr><td>20.9. — 50 kg šećera</td><td>75</td></tr>
+                    <tr><td>18.9. — etikete (50 komada)</td><td>30</td></tr>
+                    <tr><td>17.9. — ambalaža, kese</td><td>20</td></tr>
                     <tr><td>Hamo — 5 matica</td><td>100</td></tr>
                     <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4);"><td>UKUPNO TROŠKOVI (evidentirano)</td><td>1.350 KM</td></tr>
                 </tbody>
@@ -442,9 +432,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Ukupan prihod od prodaje</td><td id="tableRev">2.150 KM</td></tr>
+                    <tr><td>Ukupan prihod od prodaje</td><td id="tableRev">... KM</td></tr>
                     <tr><td>Ukupni troškovi</td><td>1.350 KM</td></tr>
-                    <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4); color: #22c55e;"><td>ČIST SALDO (NETO)</td><td id="tableNet">+800 KM</td></tr>
+                    <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4); color: #22c55e;"><td>ČIST SALDO (NETO)</td><td id="tableNet">... KM</td></tr>
                 </tbody>
             </table>
 
@@ -452,7 +442,7 @@
                 <canvas id="financialChart"></canvas>
             </div>
 
-            <p style="margin-top: 20px;">Pčelinjak je 2026. godinu završio s pozitivnim rezultatom od <strong id="summaryNet">+800 KM</strong>, uz napomenu da vrijednost poklonjenog meda nije uračunata u prihod, iako predstavlja stvarnu proizvedenu vrijednost pčelinjaka.</p>
+            <p style="margin-top: 20px;">Pčelinjak je 2026. godinu završio s pozitivnim rezultatom od <strong id="summaryNet">... KM</strong>, uz napomenu da vrijednost poklonjenog meda nije uračunata u prihod, iako predstavlja stvarnu proizvedenu vrijednost pčelinjaka.</p>
         </div>
 
         <!-- 6. Preporuke i trikovi -->
@@ -486,7 +476,7 @@
 
             <h3>📅 Planiranje vrcanja</h3>
             <ul>
-                <li>U 2026. najveći prinos je ostvaren u septembru (112 kg) — vrijedi analizirati pčelinju pašu u tom periodu i eventualno ponoviti raspored vrcanja u istim terminima i naredne godine.</li>
+                <li>U 2026. najveći prinos je ostvaren u septembru (112 kg) — vrijedi analizirati pčelinju pašu u periodu i eventualno ponoviti raspored vrcanja u istim terminima i naredne godine.</li>
                 <li>Kraće razmake između vrcanja (kao 4.-5. jul) koristiti kada se očekuje obilna paša, kako se saće ne bi prepunilo prije vrcanja.</li>
             </ul>
         </div>
@@ -498,51 +488,14 @@
     </footer>
 
     <script>
-        // Početni podaci (default)
-        const defaultSales = [
-            { customer: "Mare", jars: 2, amount: 50 },
-            { customer: "Nizama i Mido", jars: 4, amount: 100 },
-            { customer: "Lela i Tito", jars: 20, amount: 500 },
-            { customer: "Emina (Lejla-Džudo)", jars: 10, amount: 250 },
-            { customer: "Šef Miroslav", jars: 4, amount: 100 },
-            { customer: "Ivica", jars: 2, amount: 50 },
-            { customer: "Maja", jars: 4, amount: 100 },
-            { customer: "Elma (Emmina)", jars: 2, amount: 50 },
-            { customer: "Hamo (beogradski drug)", jars: 10, amount: 250 },
-            { customer: "Armin Goražde", jars: 3, amount: 75 },
-            { customer: "Armin Goražde", jars: 5, amount: 125 },
-            { customer: "Pašić Hajrudin", jars: 1, amount: 25 },
-            { customer: "Lela", jars: 4, amount: 100 },
-            { customer: "Fikra", jars: 2, amount: 50 },
-            { customer: "Emina (Elma)", jars: 2, amount: 50 },
-            { customer: "Emina (Suada)", jars: 5, amount: 125 },
-            { customer: "Mirza — Goražde Armin", jars: 5, amount: 125 },
-            { customer: "Mare", jars: 1, amount: 25 }
-        ];
+        // Google Apps Script Web App URL
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCQ5Cg1Cg00J0QADmgxm05uDZO2iF80A2k43BlUXAxLRHUTW8MlnmnK0L5Buo9DVVc/exec";
 
-        const defaultGifts = [
-            { receiver: "Lejla M.", qty: "1 tegla" },
-            { receiver: "Emina Švica", qty: "1 tegla" },
-            { receiver: "Mirza Pospo", qty: "2 tegle" },
-            { receiver: "Mulija", qty: "1 tegla" },
-            { receiver: "Mustafa", qty: "1 tegla" },
-            { receiver: "Lela", qty: "2 tegle" },
-            { receiver: "Trener", qty: "1 tegla" },
-            { receiver: "Ismeta", qty: "1 tegla" },
-            { receiver: "Hamo + Emina", qty: "1 tegla" },
-            { receiver: "Suada", qty: "1 tegla" },
-            { receiver: "Remza", qty: "2 tegle" },
-            { receiver: "Hamo - Elma", qty: "2 tegle" },
-            { receiver: "Hamo + Emina (velika tegla)", qty: "2,5 kg" },
-            { receiver: "17.9. odneseno u Vlasenicu", qty: "2 tegle" },
-            { receiver: "17.9. Emina — Malezija", qty: "10 tegli" }
-        ];
+        let salesData = [];
+        let giftsData = [];
+        const totalExpenses = 1350;
 
-        // Učitavanje iz localStorage ili postavljanje defaultnih
-        let salesData = JSON.parse(localStorage.getItem('hamos_sales')) || defaultSales;
-        let giftsData = JSON.parse(localStorage.getItem('hamos_gifts')) || defaultGifts;
-
-        // Inicijalizacija grafikona
+        // Inicijalizacija grafikona (prazni podaci dok se ne učitaju)
         const harvestCtx = document.getElementById('harvestChart').getContext('2d');
         const harvestChart = new Chart(harvestCtx, {
             type: 'line',
@@ -599,7 +552,7 @@
                 labels: ['Prihod od prodaje', 'Ukupni troškovi', 'Neto rezultat'],
                 datasets: [{
                     label: 'Iznos u KM',
-                    data: [2150, 1350, 800],
+                    data: [0, 1350, 0],
                     backgroundColor: ['#65a30d', '#c2410c', '#d97706'],
                     borderWidth: 0,
                     borderRadius: 6
@@ -616,9 +569,23 @@
             }
         });
 
-        const totalExpenses = 1350;
+        // Preuzimanje podataka sa Google Sheets-a
+        function loadData() {
+            fetch(SCRIPT_URL)
+                .then(response => response.json())
+                .then(data => {
+                    salesData = data.sales || [];
+                    giftsData = data.gifts || [];
+                    renderTables();
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                    document.getElementById('customerTable').style.display = 'table';
+                })
+                .catch(error => {
+                    console.error("Greška pri učitavanju:", error);
+                    document.getElementById('loadingOverlayhemer').innerText = "⚠️ Greška pri učitavanju podataka iz tabele.";
+                });
+        }
 
-        // Renderovanje tabela na osnovu podataka
         function renderTables() {
             // Prodaja
             let salesTbody = document.querySelector('#customerTable tbody');
@@ -627,14 +594,17 @@
             let totalJars = 0;
 
             salesData.forEach((item, index) => {
-                totalRev += item.amount;
-                totalJars += item.jars;
+                let jarsNum = parseInt(item.jars) || 0;
+                let amountNum = parseFloat(item.amount) || 0;
+                totalRev += amountNum;
+                totalJars += jarsNum;
+
                 let row = salesTbody.insertRow();
                 row.innerHTML = `
                     <td>${item.customer}</td>
-                    <td>${item.jars}</td>
-                    <td>${item.amount} KM</td>
-                    <td style="text-align: center;"><button class="btn-delete" onclick="deleteSale(${index})">✖️</button></td>
+                    <td>${jarsNum}</td>
+                    <td>${amountNum} KM</td>
+                    <td style="text-align: center;"><button class="btn-delete" onclick="deleteSale('${item.customer}', ${jarsNum}, ${amountNum})">✖️</button></td>
                 `;
             });
 
@@ -656,8 +626,7 @@
             let totalKgGifts = 0;
 
             giftsData.forEach((item, index) => {
-                // Izračunaj ukupan broj tegli i kg iz unosa poklona
-                let qtyStr = item.qty.toLowerCase();
+                let qtyStr = String(item.qty).toLowerCase();
                 let numMatch = parseFloat(qtyStr.replace(',', '.')) || 0;
                 if (qtyStr.includes('kg')) {
                     totalKgGifts += numMatch;
@@ -669,7 +638,7 @@
                 row.innerHTML = `
                     <td>${item.receiver}</td>
                     <td>${item.qty}</td>
-                    <td style="text-align: center;"><button class="btn-delete" onclick="deleteGift(${index})">✖️</button></td>
+                    <td style="text-align: center;"><button class="btn-delete" onclick="deleteGift('${item.receiver}', '${item.qty}')">✖️</button></td>
                 `;
             });
 
@@ -699,10 +668,6 @@
             financialChart.data.datasets[0].data[0] = totalRev;
             financialChart.data.datasets[0].data[2] = net;
             financialChart.update();
-
-            // Sačuvaj u localStorage
-            localStorage.setItem('hamos_sales', JSON.stringify(salesData));
-            localStorage.setItem('hamos_gifts', JSON.stringify(giftsData));
         }
 
         function calcPrice() {
@@ -720,20 +685,36 @@
                 return;
             }
 
-            salesData.push({ customer: customer, jars: jars, amount: amount });
-            renderTables();
-
-            document.getElementById('newCustomer').value = '';
-            document.getElementById('newJars').value = '';
-            document.getElementById('newAmount').value = '';
-            
-            alert("✅ Uspješno dodata nova prodaja i sačuvano!");
+            // Pošalji na Google Sheets
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'addSale', customer: customer, jars: jars, amount: amount })
+            }).then(() => {
+                salesData.push({ customer: customer, jars: jars, amount: amount });
+                renderTables();
+                document.getElementById('newCustomer').value = '';
+                document.getElementById('newJars').value = '';
+                document.getElementById('newAmount').value = '';
+                alert("✅ Uspješno dodata nova prodaja i upisana u tabelu!");
+            }).catch(err => alert("Greška pri upisu: " + err));
         }
 
-        function deleteSale(index) {
-            salesData.splice(index, 1);
-            renderTables();
-            alert("🗑️ Stavka prodaje obrisana!");
+        function deleteSale(customer, jars, amount) {
+            if(!confirm("Obrisati ovu stavku prodaje?")) return;
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'deleteSale', customer: customer, jars: jars, amount: amount })
+            }).then(() => {
+                let index = salesData.findIndex(s => s.customer === customer && s.jars === jars && s.amount === amount);
+                if (index > -1) salesData.splice(index, 1);
+                renderTables();
+                alert("🗑️ Stavka prodaje obrisana!");
+            }).catch(err => alert("Greška pri brisanju: " + err));
         }
 
         function addGift() {
@@ -745,30 +726,34 @@
                 return;
             }
 
-            giftsData.push({ receiver: receiver, qty: qty });
-            renderTables();
-
-            document.getElementById('newGiftReceiver').value = '';
-            document.getElementById('newGiftQty').value = '';
-
-            alert("🎁 Poklon uspješno zabilježen i sačuvan!");
-        }
-
-        function deleteGift(index) {
-            giftsData.splice(index, 1);
-            renderTables();
-            alert("🗑️ Poklon obrisan!");
-        }
-
-        function resetData() {
-            if (confirm("Da li ste sigurni da želite vratiti početne podatke?")) {
-                localStorage.removeItem('hamos_sales');
-                localStorage.removeItem('hamos_gifts');
-                salesData = [...defaultSales];
-                giftsData = [...defaultGifts];
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'addGift', receiver: receiver, qty: qty })
+            }).then(() => {
+                giftsData.push({ receiver: receiver, qty: qty });
                 renderTables();
-                alert("🔄 Vraćeno na početne podatke!");
-            }
+                document.getElementById('newGiftReceiver').value = '';
+                document.getElementById('newGiftQty').value = '';
+                alert("🎁 Poklon uspješno zabilježen u tabelu!");
+            }).catch(err => alert("Greška pri upisu: " + err));
+        }
+
+        function deleteGift(receiver, qty) {
+            if(!confirm("Obrisati ovaj poklon?")) return;
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'deleteGift', receiver: receiver, qty: qty })
+            }).then(() => {
+                let index = giftsData.findIndex(g => g.receiver === receiver && g.qty === qty);
+                if (index > -1) giftsData.splice(index, 1);
+                renderTables();
+                alert("🗑️ Poklon obrisan!");
+            }).catch(err => alert("Greška pri brisanju: " + err));
         }
 
         function filterCustomers() {
@@ -789,9 +774,9 @@
             }
         }
 
-        // Pokreni render pri učitavanju stranice
+        // Učitaj podatke sa servera pri pokretanju stranice
         window.onload = function() {
-            renderTables();
+            loadData();
         };
     </script>
 </body>
