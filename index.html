@@ -232,8 +232,8 @@
 </head>
 <body>
 
-    <!-- Skriveni iframe za sigurno slanje podataka u Google Sheets bez CORS grešaka -->
-    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(isSubmitting) { loadDataFromSheet(); isSubmitting=false; }"></iframe>
+    <!-- Skriveni iframe za slanje formi u Google Sheets bez CORS blokada -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(isSubmitting) { setTimeout(loadDataFromSheet, 1200); isSubmitting=false; }"></iframe>
 
     <header>
         <h1>🐝🍯 HAMOSBEES PČELINJAK 🌸🌿</h1>
@@ -265,10 +265,10 @@
         <!-- Uvod -->
         <div class="card">
             <h2>📌 Uvod</h2>
-            <p>Ovaj izvještaj sumira aktivnosti pčelinjaka HamosBees tokom sezone 2026. godine u realnom vremenu uz direktnu vezu sa Google Sheets tabelom.</p>
+            <p>Ovaj izvještaj sumira aktivnosti pčelinjaka HamosBees tokom sezone 2026. godine — od vrcanja meda, preko prodaje i poklonjenih količina, do pregleda troškova i konačnog finansijskog bilansa.</p>
             
             <div class="notice">
-                <strong>☁️ Google Sheets Sinhronizacija:</strong> Podaci se učitavaju i upisuju automatski.
+                <strong>☁️ Google Sheets Sinhronizacija:</strong> Podaci se automatski učitavaju i upisuju u vašu centralnu Google tabelu u realnom vremenu.
             </div>
         </div>
 
@@ -300,8 +300,8 @@
             <h2>2. 💰 Prodaja meda</h2>
             <p>Ukupno prodatog meda: <strong id="totalJarsCount">0 tegli</strong>, u vrijednosti od <strong id="totalRevenueText">0 KM</strong>.</p>
             
-            <!-- Forma za unos prodaje koja gadja Google Apps Script preko skrivenog iframe-a -->
-            <form id="saleForm" action="https://script.google.com/macros/s/AKfycbz1h50JKHR0MpiBZz77YfswQKiTHrMBh-oqTpspYPkbeOhvwZL5BYBOOzCUuPMovQwV/exec" method="GET" target="hidden_iframe" class="simulator" onsubmit="triggerSubmit()">
+            <!-- Forma za unos prodaje -->
+            <form id="saleForm" action="https://script.google.com/macros/s/AKfycbyDozRlXp2W2l5bik0irbzDVHKl_SSGxhfor0R_vWktnRoSarVfYE4B5hVgHlK2QpaE/exec" method="GET" target="hidden_iframe" class="simulator" onsubmit="triggerSubmit()">
                 <input type="hidden" name="action" value="addSale">
                 <h3>➕ Unesi novu prodaju meda</h3>
                 <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 10px; align-items: flex-end;">
@@ -346,17 +346,18 @@
             <h2>3. 🎁 Pokloni</h2>
             <p>Ukupno poklonjeno: <strong id="totalGiftText">0 tegli</strong></p>
             
-            <form id="giftForm" action="https://script.google.com/macros/s/AKfycbz1h50JKHR0MpiBZz77YfswQKiTHrMBh-oqTpspYPkbeOhvwZL5BYBOOzCUuPMovQwV/exec" method="GET" target="hidden_iframe" class="simulator" onsubmit="triggerSubmit()">
+            <!-- Forma za unos poklona sa parametrima primalac i kolicina -->
+            <form id="giftForm" action="https://script.google.com/macros/s/AKfycbyDozRlXp2W2l5bik0irbzDVHKl_SSGxhfor0R_vWktnRoSarVfYE4B5hVgHlK2QpaE/exec" method="GET" target="hidden_iframe" class="simulator" onsubmit="triggerSubmit()">
                 <input type="hidden" name="action" value="addGift">
                 <h3>🎁 Evidentiraj novi poklon</h3>
                 <div style="display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 10px; align-items: flex-end;">
                     <div>
                         <label>Primalac:</label>
-                        <input type="text" name="receiver" id="newGiftReceiver" placeholder="Npr. Milan" required>
+                        <input type="text" name="primalac" id="newGiftReceiver" placeholder="Npr. Milan" required>
                     </div>
                     <div>
                         <label>Količina:</label>
-                        <input type="text" name="qty" id="newGiftQty" placeholder="Npr. 2 tegle" required>
+                        <input type="text" name="kolicina" id="newGiftQty" placeholder="Npr. 2 tegle" required>
                     </div>
                     <div>
                         <button type="submit" class="btn-action">Evidentiraj</button>
@@ -428,16 +429,15 @@
     </footer>
 
     <script>
-        // Vaš aktivni SCRIPT URL
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxc-clDa-JEYC9cTuQryHmp6Ti9LRSHLECYLDSRZBXUgax_PP-PRUWwYv_Goem3X_cV/exec";
-
+        // Tvoj novi SCRIPT URL
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyDozRlXp2W2l5bik0irbzDVHKl_SSGxhfor0R_vWktnRoSarVfYE4B5hVgHlK2QpaE/exec";
 
         let salesData = [];
         let giftsData = [];
         let isSubmitting = false;
         const totalExpenses = 1350;
 
-        // Rezervni (fallback) podaci ako tabela bude prazna
+        // Rezervni spisak sa svim originalnim podacima
         const defaultSales = [
             { customer: "Mare", jars: 2, amount: 50 },
             { customer: "Nizama i Mido", jars: 4, amount: 100 },
@@ -477,7 +477,7 @@
             { receiver: "17.9. Emina — Malezija", qty: "10 tegli" }
         ];
 
-        // Inicijalizacija grafikona
+        // Grafikoni
         const harvestCtx = document.getElementById('harvestChart').getContext('2d');
         const harvestChart = new Chart(harvestCtx, {
             type: 'line',
@@ -529,7 +529,7 @@
                     document.getElementById('customerTable').style.display = 'table';
                 })
                 .catch(error => {
-                    console.error("Koristim lokalne podatke zbog greške mreže:", error);
+                    console.error("Koristim rezervne podatke zbog mrežne greške:", error);
                     salesData = defaultSales;
                     giftsData = defaultGifts;
                     renderTables();
@@ -629,14 +629,14 @@
                 document.getElementById('newAmount').value = '';
                 document.getElementById('newGiftReceiver').value = '';
                 document.getElementById('newGiftQty').value = '';
-                alert("✅ Uspješno poslato u Google tabelu!");
-            }, 1000);
+                alert("✅ Poslato u Google tabelu!");
+            }, 800);
         }
 
         function deleteEntry(actionType, param1, param2) {
             if(!confirm("Obrisati ovu stavku?")) return;
 
-            let deleteUrl = `${SCRIPT_URL}?action=${actionType}&customer=${encodeURIComponent(param1)}&jars=${param2}&receiver=${encodeURIComponent(param1)}&qty=${encodeURIComponent(param2)}`;
+            let deleteUrl = `${SCRIPT_URL}?action=${actionType}&customer=${encodeURIComponent(param1)}&jars=${param2}&primalac=${encodeURIComponent(param1)}&kolicina=${encodeURIComponent(param2)}`;
             
             fetch(deleteUrl).finally(() => {
                 setTimeout(loadDataFromSheet, 1000);
