@@ -190,6 +190,22 @@
             background: #dc2626;
         }
 
+        .btn-reset {
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-reset:hover {
+            background: #475569;
+        }
+
         ul {
             padding-left: 20px;
         }
@@ -259,7 +275,9 @@
             <p>Sva evidencija je preuzeta iz originalnih bilježaka vlasnika pčelinjaka i sređena u tabelarni i grafički oblik radi lakšeg praćenja.</p>
             
             <div class="notice">
-                <strong>⚠️ Napomena:</strong> Možeš dodavati nove stavke putem formi, a svaka stavka u tabelama prodaje i poklona sada ima dugme <strong>[ ✖️ ]</strong> sa strane za jednostavno brisanje jednim klikom!
+                <strong>💾 Automatsko čuvanje:</strong> Sve izmjene, dodavanja i brisanja sada se automatski čuvaju u memoriji tvog pretraživača. Ako želiš vratiti na fabričke postavke, možeš kliknuti dugme ispod.
+                <br><br>
+                <button class="btn-reset" onclick="resetData()">🔄 Vrati na početne podatke</button>
             </div>
         </div>
 
@@ -330,30 +348,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>Mare</td><td>2</td><td>50 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 2, 50)">✖️</button></td></tr>
-                        <tr><td>Nizama i Mido</td><td>4</td><td>100 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 4, 100)">✖️</button></td></tr>
-                        <tr><td>Lela i Tito</td><td>20</td><td>500 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 20, 500)">✖️</button></td></tr>
-                        <tr><td>Emina (Lejla-Džudo)</td><td>10</td><td>250 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 10, 250)">✖️</button></td></tr>
-                        <tr><td>Šef Miroslav</td><td>4</td><td>100 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 4, 100)">✖️</button></td></tr>
-                        <tr><td>Ivica</td><td>2</td><td>50 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 2, 50)">✖️</button></td></tr>
-                        <tr><td>Maja</td><td>4</td><td>100 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 4, 100)">✖️</button></td></tr>
-                        <tr><td>Elma (Emmina)</td><td>2</td><td>50 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 2, 50)">✖️</button></td></tr>
-                        <tr><td>Hamo (beogradski drug)</td><td>10</td><td>250 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 10, 250)">✖️</button></td></tr>
-                        <tr><td>Armin Goražde</td><td>3</td><td>75 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 3, 75)">✖️</button></td></tr>
-                        <tr><td>Armin Goražde</td><td>5</td><td>125 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 5, 125)">✖️</button></td></tr>
-                        <tr><td>Pašić Hajrudin</td><td>1</td><td>25 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 1, 25)">✖️</button></td></tr>
-                        <tr><td>Lela</td><td>4</td><td>100 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 4, 100)">✖️</button></td></tr>
-                        <tr><td>Fikra</td><td>2</td><td>50 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 2, 50)">✖️</button></td></tr>
-                        <tr><td>Emina (Elma)</td><td>2</td><td>50 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 2, 50)">✖️</button></td></tr>
-                        <tr><td>Emina (Suada)</td><td>5</td><td>125 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 5, 125)">✖️</button></td></tr>
-                        <tr><td>Mirza — Goražde Armin</td><td>5</td><td>125 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 5, 125)">✖️</button></td></tr>
-                        <tr><td>Mare</td><td>1</td><td>25 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 1, 25)">✖️</button></td></tr>
-                        <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4);" id="totalSalesRow">
-                            <td>UKUPNO PRODAJA</td>
-                            <td id="footerTotalJars">86 tegli</td>
-                            <td id="footerTotalRev">2.150 KM</td>
-                            <td></td>
-                        </tr>
+                        <!-- Dinamički se popunjava iz localStorage ili defaulta -->
                     </tbody>
                 </table>
             </div>
@@ -363,7 +358,7 @@
         <!-- 3. Pokloni -->
         <div class="card">
             <h2>3. 🎁 Pokloni</h2>
-            <p>Pored prodaje, dio proizvedenog meda je poklonjen prijateljima, rodbini i saradnicima — ukupno <strong>31 tegla</strong>, uključujući i jednu veliku teglu od 2,5 kg. Poseban dio poklona (10 tegli) otišao je u Maleziju, na ruke Emine 🇲🇾.</p>
+            <p>Pored prodaje, dio proizvedenog meda je poklonjen prijateljima, rodbini i saradnicima — ukupno <strong id="totalGiftText">31 tegla (+ 2,5 kg velika tegla)</strong>, uključujući i jednu veliku teglu od 2,5 kg. Poseban dio poklona (10 tegli) otišao je u Maleziju, na ruke Emine 🇲🇾.</p>
             
             <!-- Interaktivna forma za unos novog poklona -->
             <div class="simulator">
@@ -392,26 +387,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Lejla M.</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
-                    <tr><td>Emina Švica</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
-                    <tr><td>Mirza Pospo</td><td>2 tegle</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
-                    <tr><td>Mulija</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
-                    <tr><td>Mustafa</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
-                    <tr><td>Lela</td><td>2 tegle</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
-                    <tr><td>Trener</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
-                    <tr><td>Ismeta</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
-                    <tr><td>Hamo + Emina</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
-                    <tr><td>Suada</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
-                    <tr><td>Remza</td><td>2 tegle</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
-                    <tr><td>Hamo - Elma</td><td>2 tegle</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
-                    <tr><td>Hamo + Emina (velika tegla)</td><td>2,5 kg</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
-                    <tr><td>17.9. odneseno u Vlasenicu</td><td>2 tegle</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
-                    <tr><td>17.9. Emina — Malezija</td><td>10 tegli</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
-                    <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4);">
-                        <td>UKUPNO POKLONI</td>
-                        <td>31 tegla (+ 2,5 kg velika tegla)</td>
-                        <td></td>
-                    </tr>
+                    <!-- Dinamički se popunjava iz localStorage ili defaulta -->
                 </tbody>
             </table>
             <p style="margin-top: 15px;">Pokloni predstavljaju važan dio tradicije pčelinjaka HamosBees — dijeljenje meda s najbližima i partnerima, što doprinosi i promociji samog pčelinjaka.</p>
@@ -476,7 +452,7 @@
                 <canvas id="financialChart"></canvas>
             </div>
 
-            <p style="margin-top: 20px;">Pčelinjak je 2026. godinu završio s pozitivnim rezultatom od <strong id="summaryNet">+800 KM</strong>, uz napomenu da vrijednost poklonjenog meda (31 tegla) nije uračunata u prihod, iako predstavlja stvarnu proizvedenu vrijednost pčelinjaka.</p>
+            <p style="margin-top: 20px;">Pčelinjak je 2026. godinu završio s pozitivnim rezultatom od <strong id="summaryNet">+800 KM</strong>, uz napomenu da vrijednost poklonjenog meda nije uračunata u prihod, iako predstavlja stvarnu proizvedenu vrijednost pčelinjaka.</p>
         </div>
 
         <!-- 6. Preporuke i trikovi -->
@@ -510,7 +486,7 @@
 
             <h3>📅 Planiranje vrcanja</h3>
             <ul>
-                <li>U 2026. najveći prinos je ostvaren u septembru (112 kg) — vrijedi analizirati pčelinju pašu u periodu i eventualno ponoviti raspored vrcanja u istim terminima i naredne godine.</li>
+                <li>U 2026. najveći prinos je ostvaren u septembru (112 kg) — vrijedi analizirati pčelinju pašu u tom periodu i eventualno ponoviti raspored vrcanja u istim terminima i naredne godine.</li>
                 <li>Kraće razmake između vrcanja (kao 4.-5. jul) koristiti kada se očekuje obilna paša, kako se saće ne bi prepunilo prije vrcanja.</li>
             </ul>
         </div>
@@ -522,6 +498,50 @@
     </footer>
 
     <script>
+        // Početni podaci (default)
+        const defaultSales = [
+            { customer: "Mare", jars: 2, amount: 50 },
+            { customer: "Nizama i Mido", jars: 4, amount: 100 },
+            { customer: "Lela i Tito", jars: 20, amount: 500 },
+            { customer: "Emina (Lejla-Džudo)", jars: 10, amount: 250 },
+            { customer: "Šef Miroslav", jars: 4, amount: 100 },
+            { customer: "Ivica", jars: 2, amount: 50 },
+            { customer: "Maja", jars: 4, amount: 100 },
+            { customer: "Elma (Emmina)", jars: 2, amount: 50 },
+            { customer: "Hamo (beogradski drug)", jars: 10, amount: 250 },
+            { customer: "Armin Goražde", jars: 3, amount: 75 },
+            { customer: "Armin Goražde", jars: 5, amount: 125 },
+            { customer: "Pašić Hajrudin", jars: 1, amount: 25 },
+            { customer: "Lela", jars: 4, amount: 100 },
+            { customer: "Fikra", jars: 2, amount: 50 },
+            { customer: "Emina (Elma)", jars: 2, amount: 50 },
+            { customer: "Emina (Suada)", jars: 5, amount: 125 },
+            { customer: "Mirza — Goražde Armin", jars: 5, amount: 125 },
+            { customer: "Mare", jars: 1, amount: 25 }
+        ];
+
+        const defaultGifts = [
+            { receiver: "Lejla M.", qty: "1 tegla" },
+            { receiver: "Emina Švica", qty: "1 tegla" },
+            { receiver: "Mirza Pospo", qty: "2 tegle" },
+            { receiver: "Mulija", qty: "1 tegla" },
+            { receiver: "Mustafa", qty: "1 tegla" },
+            { receiver: "Lela", qty: "2 tegle" },
+            { receiver: "Trener", qty: "1 tegla" },
+            { receiver: "Ismeta", qty: "1 tegla" },
+            { receiver: "Hamo + Emina", qty: "1 tegla" },
+            { receiver: "Suada", qty: "1 tegla" },
+            { receiver: "Remza", qty: "2 tegle" },
+            { receiver: "Hamo - Elma", qty: "2 tegle" },
+            { receiver: "Hamo + Emina (velika tegla)", qty: "2,5 kg" },
+            { receiver: "17.9. odneseno u Vlasenicu", qty: "2 tegle" },
+            { receiver: "17.9. Emina — Malezija", qty: "10 tegli" }
+        ];
+
+        // Učitavanje iz localStorage ili postavljanje defaultnih
+        let salesData = JSON.parse(localStorage.getItem('hamos_sales')) || defaultSales;
+        let giftsData = JSON.parse(localStorage.getItem('hamos_gifts')) || defaultGifts;
+
         // Inicijalizacija grafikona
         const harvestCtx = document.getElementById('harvestChart').getContext('2d');
         const harvestChart = new Chart(harvestCtx, {
@@ -596,10 +616,94 @@
             }
         });
 
-        // Početne vrijednosti
-        let totalRevenue = 2150;
-        let totalExpenses = 1350;
-        let totalJarsSold = 86;
+        const totalExpenses = 1350;
+
+        // Renderovanje tabela na osnovu podataka
+        function renderTables() {
+            // Prodaja
+            let salesTbody = document.querySelector('#customerTable tbody');
+            salesTbody.innerHTML = '';
+            let totalRev = 0;
+            let totalJars = 0;
+
+            salesData.forEach((item, index) => {
+                totalRev += item.amount;
+                totalJars += item.jars;
+                let row = salesTbody.insertRow();
+                row.innerHTML = `
+                    <td>${item.customer}</td>
+                    <td>${item.jars}</td>
+                    <td>${item.amount} KM</td>
+                    <td style="text-align: center;"><button class="btn-delete" onclick="deleteSale(${index})">✖️</button></td>
+                `;
+            });
+
+            // Red UKUPNO prodaja
+            let totalRow = salesTbody.insertRow();
+            totalRow.style.fontWeight = 'bold';
+            totalRow.style.background = 'rgba(15, 23, 42, 0.4)';
+            totalRow.innerHTML = `
+                <td>UKUPNO PRODAJA</td>
+                <td id="footerTotalJars">${totalJars} tegli</td>
+                <td id="footerTotalRev">${totalRev} KM</td>
+                <td></td>
+            `;
+
+            // Pokloni
+            let giftsTbody = document.querySelector('#giftTable tbody');
+            giftsTbody.innerHTML = '';
+            let totalJarGifts = 0;
+            let totalKgGifts = 0;
+
+            giftsData.forEach((item, index) => {
+                // Izračunaj ukupan broj tegli i kg iz unosa poklona
+                let qtyStr = item.qty.toLowerCase();
+                let numMatch = parseFloat(qtyStr.replace(',', '.')) || 0;
+                if (qtyStr.includes('kg')) {
+                    totalKgGifts += numMatch;
+                } else if (qtyStr.includes('tegla') || qtyStr.includes('tegli') || qtyStr.includes('tegle')) {
+                    totalJarGifts += numMatch;
+                }
+
+                let row = giftsTbody.insertRow();
+                row.innerHTML = `
+                    <td>${item.receiver}</td>
+                    <td>${item.qty}</td>
+                    <td style="text-align: center;"><button class="btn-delete" onclick="deleteGift(${index})">✖️</button></td>
+                `;
+            });
+
+            // Red UKUPNO pokloni
+            let totalGiftRow = giftsTbody.insertRow();
+            totalGiftRow.style.fontWeight = 'bold';
+            totalGiftRow.style.background = 'rgba(15, 23, 42, 0.4)';
+            let giftSummaryText = totalJarGifts + ' tegla/tegli';
+            if (totalKgGifts > 0) giftSummaryText += ` (+ ${totalKgGifts} kg)`;
+            totalGiftRow.innerHTML = `
+                <td>UKUPNO POKLONI</td>
+                <td id="footerTotalGifts">${giftSummaryText}</td>
+                <td></td>
+            `;
+            document.getElementById('totalGiftText').innerText = giftSummaryText;
+
+            // Ažuriraj finansije i kartice
+            let net = totalRev - totalExpenses;
+            document.getElementById('statRevenue').innerText = totalRev + ' KM 💶';
+            document.getElementById('statNet').innerText = (net >= 0 ? '+' : '') + net + ' KM 📈';
+            document.getElementById('totalJarsCount').innerText = totalJars + ' tegli meda';
+            document.getElementById('totalRevenueText').innerText = totalRev + ' KM';
+            document.getElementById('tableRev').innerText = totalRev + ' KM';
+            document.getElementById('tableNet').innerText = (net >= 0 ? '+' : '') + net + ' KM';
+            document.getElementById('summaryNet').innerText = (net >= 0 ? '+' : '') + net + ' KM';
+
+            financialChart.data.datasets[0].data[0] = totalRev;
+            financialChart.data.datasets[0].data[2] = net;
+            financialChart.update();
+
+            // Sačuvaj u localStorage
+            localStorage.setItem('hamos_sales', JSON.stringify(salesData));
+            localStorage.setItem('hamos_gifts', JSON.stringify(giftsData));
+        }
 
         function calcPrice() {
             let jars = document.getElementById('newJars').value;
@@ -616,59 +720,20 @@
                 return;
             }
 
-            let table = document.getElementById('customerTable');
-            let tbody = table.getElementsByTagName('tbody')[0];
-            
-            // Ubacujemo novi red tačno iznad zadnjeg reda (UKUPNO)
-            let totalRowIndex = tbody.rows.length - 1;
-            let newRow = tbody.insertRow(totalRowIndex);
-            
-            newRow.innerHTML = `
-                <td>${customer}</td>
-                <td>${jars}</td>
-                <td>${amount} KM</td>
-                <td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, ${jars}, ${amount})">✖️</button></td>
-            `;
-
-            totalRevenue += amount;
-            totalJarsSold += jars;
-            updateFinancials();
+            salesData.push({ customer: customer, jars: jars, amount: amount });
+            renderTables();
 
             document.getElementById('newCustomer').value = '';
             document.getElementById('newJars').value = '';
             document.getElementById('newAmount').value = '';
             
-            alert("✅ Uspješno dodata nova prodaja i ažuriran izvještaj!");
+            alert("✅ Uspješno dodata nova prodaja i sačuvano!");
         }
 
-        function deleteSaleRow(btn, jars, amount) {
-            let row = btn.closest('tr');
-            totalRevenue -= amount;
-            totalJarsSold -= jars;
-            row.remove();
-            updateFinancials();
-            alert("🗑️ Stavka prodaje obrisana i bilans ažuriran!");
-        }
-
-        function updateFinancials() {
-            let newNet = totalRevenue - totalExpenses;
-
-            document.getElementById('statRevenue').innerText = totalRevenue + ' KM 💶';
-            document.getElementById('statNet').innerText = (newNet >= 0 ? '+' : '') + newNet + ' KM 📈';
-            document.getElementById('totalJarsCount').innerText = totalJarsSold + ' tegli meda';
-            document.getElementById('totalRevenueText').innerText = totalRevenue + ' KM';
-            document.getElementById('tableRev').innerText = totalRevenue + ' KM';
-            document.getElementById('tableNet').innerText = (newNet >= 0 ? '+' : '') + newNet + ' KM';
-            document.getElementById('summaryNet').innerText = (newNet >= 0 ? '+' : '') + newNet + ' KM';
-
-            // Ažuriranje footer reda u tabeli prodaje
-            document.getElementById('footerTotalJars').innerText = totalJarsSold + ' tegli';
-            document.getElementById('footerTotalRev').innerText = totalRevenue + ' KM';
-
-            // Osvježi grafikon
-            financialChart.data.datasets[0].data[0] = totalRevenue;
-            financialChart.data.datasets[0].data[2] = newNet;
-            financialChart.update();
+        function deleteSale(index) {
+            salesData.splice(index, 1);
+            renderTables();
+            alert("🗑️ Stavka prodaje obrisana!");
         }
 
         function addGift() {
@@ -680,22 +745,30 @@
                 return;
             }
 
-            let table = document.getElementById('giftTable');
-            let tbody = table.getElementsByTagName('tbody')[0];
-
-            let totalRowIndex = tbody.rows.length - 1;
-            let newRow = tbody.insertRow(totalRowIndex);
-
-            newRow.innerHTML = `
-                <td>${receiver}</td>
-                <td>${qty}</td>
-                <td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td>
-            `;
+            giftsData.push({ receiver: receiver, qty: qty });
+            renderTables();
 
             document.getElementById('newGiftReceiver').value = '';
             document.getElementById('newGiftQty').value = '';
 
-            alert("🎁 Poklon uspješno zabilježen!");
+            alert("🎁 Poklon uspješno zabilježen i sačuvan!");
+        }
+
+        function deleteGift(index) {
+            giftsData.splice(index, 1);
+            renderTables();
+            alert("🗑️ Poklon obrisan!");
+        }
+
+        function resetData() {
+            if (confirm("Da li ste sigurni da želite vratiti početne podatke?")) {
+                localStorage.removeItem('hamos_sales');
+                localStorage.removeItem('hamos_gifts');
+                salesData = [...defaultSales];
+                giftsData = [...defaultGifts];
+                renderTables();
+                alert("🔄 Vraćeno na početne podatke!");
+            }
         }
 
         function filterCustomers() {
@@ -703,7 +776,7 @@
             let table = document.getElementById('customerTable');
             let tr = table.getElementsByTagName('tr');
 
-            for (let i = 1; i < tr.length - 1; i++) {
+            for (let i = 0; i < tr.length - 1; i++) {
                 let td = tr[i].getElementsByTagName('td')[0];
                 if (td) {
                     let txtValue = td.textContent || td.innerText;
@@ -715,6 +788,11 @@
                 }
             }
         }
+
+        // Pokreni render pri učitavanju stranice
+        window.onload = function() {
+            renderTables();
+        };
     </script>
 </body>
 </html>
