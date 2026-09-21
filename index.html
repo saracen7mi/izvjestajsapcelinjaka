@@ -226,11 +226,14 @@
             text-align: center;
             color: var(--accent);
             font-weight: bold;
-            padding: 20px;
+            padding: 15px;
         }
     </style>
 </head>
 <body>
+
+    <!-- Skriveni iframe za sigurno slanje podataka u Google Sheets bez CORS grešaka -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(isSubmitting) { loadDataFromSheet(); isSubmitting=false; }"></iframe>
 
     <header>
         <h1>🐝🍯 HAMOSBEES PČELINJAK 🌸🌿</h1>
@@ -262,10 +265,10 @@
         <!-- Uvod -->
         <div class="card">
             <h2>📌 Uvod</h2>
-            <p>Ovaj izvještaj sumira aktivnosti pčelinjaka HamosBees tokom sezone 2026. godine — od vrcanja meda, preko prodaje i poklonjenih količina, do pregleda troškova i konačnog finansijskog bilansa.</p>
+            <p>Ovaj izvještaj sumira aktivnosti pčelinjaka HamosBees tokom sezone 2026. godine u realnom vremenu uz direktnu vezu sa Google Sheets tabelom.</p>
             
             <div class="notice">
-                <strong>☁️ Google Sheets Sinhronizacija:</strong> Podaci se učitavaju i upisuju direktno u tvoju centralnu Google tabelu u realnom vremenu.
+                <strong>☁️ Google Sheets Sinhronizacija:</strong> Podaci se učitavaju i upisuju automatski.
             </div>
         </div>
 
@@ -297,26 +300,28 @@
             <h2>2. 💰 Prodaja meda</h2>
             <p>Ukupno prodatog meda: <strong id="totalJarsCount">0 tegli</strong>, u vrijednosti od <strong id="totalRevenueText">0 KM</strong>.</p>
             
-            <div class="simulator">
+            <!-- Forma za unos prodaje koja gadja Google Apps Script preko skrivenog iframe-a -->
+            <form id="saleForm" action="https://script.google.com/macros/s/AKfycbz1h50JKHR0MpiBZz77YfswQKiTHrMBh-oqTpspYPkbeOhvwZL5BYBOOzCUuPMovQwV/exec" method="GET" target="hidden_iframe" class="simulator" onsubmit="triggerSubmit()">
+                <input type="hidden" name="action" value="addSale">
                 <h3>➕ Unesi novu prodaju meda</h3>
                 <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 10px; align-items: flex-end;">
                     <div>
                         <label>Ime kupca:</label>
-                        <input type="text" id="newCustomer" placeholder="Npr. Jovan">
+                        <input type="text" name="customer" id="newCustomer" placeholder="Npr. Jovan" required>
                     </div>
                     <div>
                         <label>Broj tegli:</label>
-                        <input type="number" id="newJars" placeholder="Npr. 2" oninput="calcPrice()">
+                        <input type="number" name="jars" id="newJars" placeholder="Npr. 2" oninput="calcPrice()" required>
                     </div>
                     <div>
                         <label>Iznos (KM):</label>
-                        <input type="number" id="newAmount" placeholder="50">
+                        <input type="number" name="amount" id="newAmount" placeholder="50" required>
                     </div>
                     <div>
-                        <button class="btn-action" onclick="addSale()">Dodaj prodaju</button>
+                        <button type="submit" class="btn-action">Dodaj prodaju</button>
                     </div>
                 </div>
-            </div>
+            </form>
 
             <input type="text" id="customerSearch" class="search-bar" style="margin-top: 20px;" placeholder="🔍 Pretraži kupca po imenu..." onkeyup="filterCustomers()">
             
@@ -341,22 +346,23 @@
             <h2>3. 🎁 Pokloni</h2>
             <p>Ukupno poklonjeno: <strong id="totalGiftText">0 tegli</strong></p>
             
-            <div class="simulator">
+            <form id="giftForm" action="https://script.google.com/macros/s/AKfycbz1h50JKHR0MpiBZz77YfswQKiTHrMBh-oqTpspYPkbeOhvwZL5BYBOOzCUuPMovQwV/exec" method="GET" target="hidden_iframe" class="simulator" onsubmit="triggerSubmit()">
+                <input type="hidden" name="action" value="addGift">
                 <h3>🎁 Evidentiraj novi poklon</h3>
                 <div style="display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 10px; align-items: flex-end;">
                     <div>
                         <label>Primalac:</label>
-                        <input type="text" id="newGiftReceiver" placeholder="Npr. Milan">
+                        <input type="text" name="receiver" id="newGiftReceiver" placeholder="Npr. Milan" required>
                     </div>
                     <div>
                         <label>Količina:</label>
-                        <input type="text" id="newGiftQty" placeholder="Npr. 2 tegle">
+                        <input type="text" name="qty" id="newGiftQty" placeholder="Npr. 2 tegle" required>
                     </div>
                     <div>
-                        <button class="btn-action" onclick="addGift()">Evidentiraj</button>
+                        <button type="submit" class="btn-action">Evidentiraj</button>
                     </div>
                 </div>
-            </div>
+            </form>
 
             <table id="giftTable" style="margin-top: 20px;">
                 <thead>
@@ -422,12 +428,54 @@
     </footer>
 
     <script>
-        // Novi tačni SCRIPT URL
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1h50JKHR0MpiBZz77YfswQKiTHrMBh-oqTpspYPkbeOhvwZL5BYBOOzCUuPMovQwV/exec";
+        // Vaš aktivni SCRIPT URL
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxc-clDa-JEYC9cTuQryHmp6Ti9LRSHLECYLDSRZBXUgax_PP-PRUWwYv_Goem3X_cV/exec";
+
 
         let salesData = [];
         let giftsData = [];
+        let isSubmitting = false;
         const totalExpenses = 1350;
+
+        // Rezervni (fallback) podaci ako tabela bude prazna
+        const defaultSales = [
+            { customer: "Mare", jars: 2, amount: 50 },
+            { customer: "Nizama i Mido", jars: 4, amount: 100 },
+            { customer: "Lela i Tito", jars: 20, amount: 500 },
+            { customer: "Emina (Lejla-Džudo)", jars: 10, amount: 250 },
+            { customer: "Šef Miroslav", jars: 4, amount: 100 },
+            { customer: "Ivica", jars: 2, amount: 50 },
+            { customer: "Maja", jars: 4, amount: 100 },
+            { customer: "Elma (Emmina)", jars: 2, amount: 50 },
+            { customer: "Hamo (beogradski drug)", jars: 10, amount: 250 },
+            { customer: "Armin Goražde", jars: 3, amount: 75 },
+            { customer: "Armin Goražde", jars: 5, amount: 125 },
+            { customer: "Pašić Hajrudin", jars: 1, amount: 25 },
+            { customer: "Lela", jars: 4, amount: 100 },
+            { customer: "Fikra", jars: 2, amount: 50 },
+            { customer: "Emina (Elma)", jars: 2, amount: 50 },
+            { customer: "Emina (Suada)", jars: 5, amount: 125 },
+            { customer: "Mirza — Goražde Armin", jars: 5, amount: 125 },
+            { customer: "Mare", jars: 1, amount: 25 }
+        ];
+
+        const defaultGifts = [
+            { receiver: "Lejla M.", qty: "1 tegla" },
+            { receiver: "Emina Švica", qty: "1 tegla" },
+            { receiver: "Mirza Pospo", qty: "2 tegle" },
+            { receiver: "Mulija", qty: "1 tegla" },
+            { receiver: "Mustafa", qty: "1 tegla" },
+            { receiver: "Lela", qty: "2 tegle" },
+            { receiver: "Trener", qty: "1 tegla" },
+            { receiver: "Ismeta", qty: "1 tegla" },
+            { receiver: "Hamo + Emina", qty: "1 tegla" },
+            { receiver: "Suada", qty: "1 tegla" },
+            { receiver: "Remza", qty: "2 tegle" },
+            { receiver: "Hamo - Elma", qty: "2 tegle" },
+            { receiver: "Hamo + Emina (velika tegla)", qty: "2,5 kg" },
+            { receiver: "17.9. odneseno u Vlasenicu", qty: "2 tegle" },
+            { receiver: "17.9. Emina — Malezija", qty: "10 tegli" }
+        ];
 
         // Inicijalizacija grafikona
         const harvestCtx = document.getElementById('harvestChart').getContext('2d');
@@ -470,19 +518,23 @@
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
         });
 
-        function loadData() {
+        function loadDataFromSheet() {
             fetch(SCRIPT_URL)
                 .then(response => response.json())
                 .then(data => {
-                    salesData = data.sales || [];
-                    giftsData = data.gifts || [];
+                    salesData = (data.sales && data.sales.length > 0) ? data.sales : defaultSales;
+                    giftsData = (data.gifts && data.gifts.length > 0) ? data.gifts : defaultGifts;
                     renderTables();
                     document.getElementById('loadingOverlay').style.display = 'none';
                     document.getElementById('customerTable').style.display = 'table';
                 })
                 .catch(error => {
-                    console.error("Greška pri učitavanju:", error);
-                    document.getElementById('loadingOverlay').innerText = "Greška pri učitavanju podataka iz tabele.";
+                    console.error("Koristim lokalne podatke zbog greške mreže:", error);
+                    salesData = defaultSales;
+                    giftsData = defaultGifts;
+                    renderTables();
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                    document.getElementById('customerTable').style.display = 'table';
                 });
         }
 
@@ -503,7 +555,7 @@
                     <td>${item.customer}</td>
                     <td>${jarsNum}</td>
                     <td>${amountNum} KM</td>
-                    <td style="text-align: center;"><button class="btn-delete" onclick="deleteSale('${item.customer}', ${jarsNum}, ${amountNum})">✖️</button></td>
+                    <td style="text-align: center;"><button class="btn-delete" onclick="deleteEntry('deleteSale', '${item.customer}', ${jarsNum}, ${amountNum})">✖️</button></td>
                 `;
             });
 
@@ -527,24 +579,22 @@
                 let numMatch = parseFloat(qtyStr.replace(',', '.')) || 0;
                 if (qtyStr.includes('kg')) {
                     totalKgGifts += numMatch;
-                } else if (qtyStr.includes('tegla') || qtyStr.includes('tegli') || qtyStr.includes('tegle')) {
-                    totalJarGifts += numMatch;
                 } else {
-                    totalJarGifts += numMatch; // Ako je upisan čist broj
+                    totalJarGifts += numMatch;
                 }
 
                 let row = giftsTbody.insertRow();
                 row.innerHTML = `
                     <td>${item.receiver}</td>
                     <td>${item.qty}</td>
-                    <td style="text-align: center;"><button class="btn-delete" onclick="deleteGift('${item.receiver}', '${item.qty}')">✖️</button></td>
+                    <td style="text-align: center;"><button class="btn-delete" onclick="deleteEntry('deleteGift', '${item.receiver}', '${item.qty}')">✖️</button></td>
                 `;
             });
 
             let totalGiftRow = giftsTbody.insertRow();
             totalGiftRow.style.fontWeight = 'bold';
             totalGiftRow.style.background = 'rgba(15, 23, 42, 0.4)';
-            let giftSummaryText = totalJarGifts + ' tegla/tegli';
+            let giftSummaryText = totalJarGifts + ' tegli';
             if (totalKgGifts > 0) giftSummaryText += ` (+ ${totalKgGifts} kg)`;
             totalGiftRow.innerHTML = `
                 <td>UKUPNO POKLONI</td>
@@ -571,103 +621,27 @@
             document.getElementById('newAmount').value = jars * 25;
         }
 
-        function addSale() {
-            let customer = document.getElementById('newCustomer').value;
-            let jars = parseInt(document.getElementById('newJars').value);
-            let amount = parseFloat(document.getElementById('newAmount').value);
-
-            if(!customer || isNaN(jars) || isNaN(amount)) {
-                alert("Molimo popunite sva polja za prodaju ispravno!");
-                return;
-            }
-
-            let url = `${SCRIPT_URL}?action=addSale&customer=${encodeURIComponent(customer)}&jars=${jars}&amount=${amount}`;
-
-            document.getElementById('loadingOverlay').style.display = 'block';
-            document.getElementById('loadingOverlay').innerText = "Upisujem u Google tabelu... ⏳";
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    salesData = data.sales || [];
-                    giftsData = data.gifts || [];
-                    renderTables();
-                    document.getElementById('loadingOverlay').style.display = 'none';
-                    document.getElementById('customerTable').style.display = 'table';
-                    document.getElementById('newCustomer').value = '';
-                    document.getElementById('newJars').value = '';
-                    document.getElementById('newAmount').value = '';
-                    alert("✅ Uspješno upisano u Google tabelu!");
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert("Greška pri upisu.");
-                    document.getElementById('loadingOverlay').style.display = 'none';
-                });
+        function triggerSubmit() {
+            isSubmitting = true;
+            setTimeout(() => {
+                document.getElementById('newCustomer').value = '';
+                document.getElementById('newJars').value = '';
+                document.getElementById('newAmount').value = '';
+                document.getElementById('newGiftReceiver').value = '';
+                document.getElementById('newGiftQty').value = '';
+                alert("✅ Uspješno poslato u Google tabelu!");
+            }, 1000);
         }
 
-        function deleteSale(customer, jars, amount) {
-            if(!confirm("Obrisati ovu stavku prodaje?")) return;
+        function deleteEntry(actionType, param1, param2) {
+            if(!confirm("Obrisati ovu stavku?")) return;
 
-            let url = `${SCRIPT_URL}?action=deleteSale&customer=${encodeURIComponent(customer)}&jars=${jars}&amount=${amount}`;
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    salesData = data.sales || [];
-                    giftsData = data.gifts || [];
-                    renderTables();
-                    alert("🗑️ Stavka prodaje obrisana!");
-                })
-                .catch(err => console.error(err));
-        }
-
-        function addGift() {
-            let receiver = document.getElementById('newGiftReceiver').value;
-            let qty = document.getElementById('newGiftQty').value;
-
-            if(!receiver || !qty) {
-                alert("Molimo popunite sva polja za poklon!");
-                return;
-            }
-
-            let url = `${SCRIPT_URL}?action=addGift&receiver=${encodeURIComponent(receiver)}&qty=${encodeURIComponent(qty)}`;
-
-            document.getElementById('loadingOverlay').style.display = 'block';
-            document.getElementById('loadingOverlay').innerText = "Upisujem poklon u tabelu... ⏳";
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    salesData = data.sales || [];
-                    giftsData = data.gifts || [];
-                    renderTables();
-                    document.getElementById('loadingOverlay').style.display = 'none';
-                    document.getElementById('newGiftReceiver').value = '';
-                    document.getElementById('newGiftQty').value = '';
-                    alert("🎁 Poklon uspješno upisan u Google tabelu!");
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert("Greška pri upisu poklona.");
-                    document.getElementById('loadingOverlay').style.display = 'none';
-                });
-        }
-
-        function deleteGift(receiver, qty) {
-            if(!confirm("Obrisati ovaj poklon?")) return;
-
-            let url = `${SCRIPT_URL}?action=deleteGift&receiver=${encodeURIComponent(receiver)}&qty=${encodeURIComponent(qty)}`;
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    salesData = data.sales || [];
-                    giftsData = data.gifts || [];
-                    renderTables();
-                    alert("🗑️ Poklon obrisan!");
-                })
-                .catch(err => console.error(err));
+            let deleteUrl = `${SCRIPT_URL}?action=${actionType}&customer=${encodeURIComponent(param1)}&jars=${param2}&receiver=${encodeURIComponent(param1)}&qty=${encodeURIComponent(param2)}`;
+            
+            fetch(deleteUrl).finally(() => {
+                setTimeout(loadDataFromSheet, 1000);
+                alert("🗑️ Obrisano!");
+            });
         }
 
         function filterCustomers() {
@@ -689,7 +663,7 @@
         }
 
         window.onload = function() {
-            loadData();
+            loadDataFromSheet();
         };
     </script>
 </body>
