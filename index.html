@@ -246,7 +246,7 @@
                 <p>Ukupno Vrcano Meda</p>
             </div>
             <div class="stat-box">
-                <h3 id="statRevenue">2.150 KM 💶</h3>
+                <h3 id="statRevenue">0 KM 💶</h3>
                 <p>Ukupan Prihod</p>
             </div>
             <div class="stat-box">
@@ -254,7 +254,7 @@
                 <p>Ukupni Troškovi</p>
             </div>
             <div class="stat-box">
-                <h3 id="statNet" style="color: #22c55e;">+800 KM 📈</h3>
+                <h3 id="statNet" style="color: #22c55e;">0 KM 📈</h3>
                 <p>Čist Saldo (Neto)</p>
             </div>
         </div>
@@ -423,8 +423,7 @@
 
     <script>
         // Novi tačni SCRIPT URL
-        const SCRIPT_URL ="https://script.google.com/macros/s/AKfycbyRqlmjlcxxo4aZ92acuMisJZMn-1lvXkuohMOy4bBG4tWom4TirK6lhx7BAcUIkTgl/exec";
-
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1h50JKHR0MpiBZz77YfswQKiTHrMBh-oqTpspYPkbeOhvwZL5BYBOOzCUuPMovQwV/exec";
 
         let salesData = [];
         let giftsData = [];
@@ -530,6 +529,8 @@
                     totalKgGifts += numMatch;
                 } else if (qtyStr.includes('tegla') || qtyStr.includes('tegli') || qtyStr.includes('tegle')) {
                     totalJarGifts += numMatch;
+                } else {
+                    totalJarGifts += numMatch; // Ako je upisan čist broj
                 }
 
                 let row = giftsTbody.insertRow();
@@ -582,14 +583,27 @@
 
             let url = `${SCRIPT_URL}?action=addSale&customer=${encodeURIComponent(customer)}&jars=${jars}&amount=${amount}`;
 
-            fetch(url).finally(() => {
-                salesData.push({ customer: customer, jars: jars, amount: amount });
-                renderTables();
-                document.getElementById('newCustomer').value = '';
-                document.getElementById('newJars').value = '';
-                document.getElementById('newAmount').value = '';
-                alert("✅ Uspješno dodata nova prodaja i upisana u tabelu!");
-            });
+            document.getElementById('loadingOverlay').style.display = 'block';
+            document.getElementById('loadingOverlay').innerText = "Upisujem u Google tabelu... ⏳";
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    salesData = data.sales || [];
+                    giftsData = data.gifts || [];
+                    renderTables();
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                    document.getElementById('customerTable').style.display = 'table';
+                    document.getElementById('newCustomer').value = '';
+                    document.getElementById('newJars').value = '';
+                    document.getElementById('newAmount').value = '';
+                    alert("✅ Uspješno upisano u Google tabelu!");
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Greška pri upisu.");
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                });
         }
 
         function deleteSale(customer, jars, amount) {
@@ -597,12 +611,15 @@
 
             let url = `${SCRIPT_URL}?action=deleteSale&customer=${encodeURIComponent(customer)}&jars=${jars}&amount=${amount}`;
 
-            fetch(url).finally(() => {
-                let index = salesData.findIndex(s => s.customer === customer && s.jars === jars && s.amount === amount);
-                if (index > -1) salesData.splice(index, 1);
-                renderTables();
-                alert("🗑️ Stavka prodaje obrisana!");
-            });
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    salesData = data.sales || [];
+                    giftsData = data.gifts || [];
+                    renderTables();
+                    alert("🗑️ Stavka prodaje obrisana!");
+                })
+                .catch(err => console.error(err));
         }
 
         function addGift() {
@@ -616,13 +633,25 @@
 
             let url = `${SCRIPT_URL}?action=addGift&receiver=${encodeURIComponent(receiver)}&qty=${encodeURIComponent(qty)}`;
 
-            fetch(url).finally(() => {
-                giftsData.push({ receiver: receiver, qty: qty });
-                renderTables();
-                document.getElementById('newGiftReceiver').value = '';
-                document.getElementById('newGiftQty').value = '';
-                alert("🎁 Poklon uspješno zabilježen u tabelu!");
-            });
+            document.getElementById('loadingOverlay').style.display = 'block';
+            document.getElementById('loadingOverlay').innerText = "Upisujem poklon u tabelu... ⏳";
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    salesData = data.sales || [];
+                    giftsData = data.gifts || [];
+                    renderTables();
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                    document.getElementById('newGiftReceiver').value = '';
+                    document.getElementById('newGiftQty').value = '';
+                    alert("🎁 Poklon uspješno upisan u Google tabelu!");
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Greška pri upisu poklona.");
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                });
         }
 
         function deleteGift(receiver, qty) {
@@ -630,12 +659,15 @@
 
             let url = `${SCRIPT_URL}?action=deleteGift&receiver=${encodeURIComponent(receiver)}&qty=${encodeURIComponent(qty)}`;
 
-            fetch(url).finally(() => {
-                let index = giftsData.findIndex(g => g.receiver === receiver && g.qty === qty);
-                if (index > -1) giftsData.splice(index, 1);
-                renderTables();
-                alert("🗑️ Poklon obrisan!");
-            });
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    salesData = data.sales || [];
+                    giftsData = data.gifts || [];
+                    renderTables();
+                    alert("🗑️ Poklon obrisan!");
+                })
+                .catch(err => console.error(err));
         }
 
         function filterCustomers() {
