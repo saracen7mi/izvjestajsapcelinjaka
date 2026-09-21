@@ -168,21 +168,26 @@
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid var(--border);
-            user-select: none;
-        }
-
-        .deletable-row {
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .deletable-row:hover {
-            background-color: rgba(239, 68, 68, 0.15);
         }
 
         th {
             color: var(--accent);
             background-color: rgba(15, 23, 42, 0.4);
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
         }
 
         ul {
@@ -254,7 +259,7 @@
             <p>Sva evidencija je preuzeta iz originalnih bilježaka vlasnika pčelinjaka i sređena u tabelarni i grafički oblik radi lakšeg praćenja.</p>
             
             <div class="notice">
-                <strong>⚠️ Napomena:</strong> Ovaj izvještaj je pregled onoga što je do sada uspješno evidentirano, a ne konačan i zatvoren obračun. Možeš direktno dodavati nove stavke u forme ispod, a ako želiš **obrisati neki uneseni red** u tabelama prodaje ili poklona, dovoljno je da **zadržiš prst (ili klikneš dva puta)** na taj red.
+                <strong>⚠️ Napomena:</strong> Možeš dodavati nove stavke putem formi, a svaka stavka u tabelama prodaje i poklona sada ima dugme <strong>[ ✖️ ]</strong> sa strane za jednostavno brisanje jednim klikom!
             </div>
         </div>
 
@@ -318,31 +323,37 @@
                 <table id="customerTable">
                     <thead>
                         <tr>
-                            <th>Kupac (Dugi klik za brisanje)</th>
+                            <th>Kupac</th>
                             <th>Tegle</th>
                             <th>Iznos (KM)</th>
+                            <th style="width: 80px; text-align: center;">Akcija</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Mare</td><td>2</td><td>50 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Nizama i Mido</td><td>4</td><td>100 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Lela i Tito</td><td>20</td><td>500 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Emina (Lejla-Džudo)</td><td>10</td><td>250 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Šef Miroslav</td><td>4</td><td>100 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Ivica</td><td>2</td><td>50 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Maja</td><td>4</td><td>100 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Elma (Emmina)</td><td>2</td><td>50 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Hamo (beogradski drug)</td><td>10</td><td>250 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Armin Goražde</td><td>3</td><td>75 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Armin Goražde</td><td>5</td><td>125 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Pašić Hajrudin</td><td>1</td><td>25 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Lela</td><td>4</td><td>100 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Fikra</td><td>2</td><td>50 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Emina (Elma)</td><td>2</td><td>50 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Emina (Suada)</td><td>5</td><td>125 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Mirza — Goražde Armin</td><td>5</td><td>125 KM</td></tr>
-                        <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="deleteSaleRow(this)"><td>Mare</td><td>1</td><td>25 KM</td></tr>
-                        <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4);" id="totalSalesRow"><td>UKUPNO PRODAJA</td><td>86 tegli</td><td>2.150 KM</td></tr>
+                        <tr><td>Mare</td><td>2</td><td>50 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 2, 50)">✖️</button></td></tr>
+                        <tr><td>Nizama i Mido</td><td>4</td><td>100 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 4, 100)">✖️</button></td></tr>
+                        <tr><td>Lela i Tito</td><td>20</td><td>500 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 20, 500)">✖️</button></td></tr>
+                        <tr><td>Emina (Lejla-Džudo)</td><td>10</td><td>250 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 10, 250)">✖️</button></td></tr>
+                        <tr><td>Šef Miroslav</td><td>4</td><td>100 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 4, 100)">✖️</button></td></tr>
+                        <tr><td>Ivica</td><td>2</td><td>50 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 2, 50)">✖️</button></td></tr>
+                        <tr><td>Maja</td><td>4</td><td>100 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 4, 100)">✖️</button></td></tr>
+                        <tr><td>Elma (Emmina)</td><td>2</td><td>50 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 2, 50)">✖️</button></td></tr>
+                        <tr><td>Hamo (beogradski drug)</td><td>10</td><td>250 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 10, 250)">✖️</button></td></tr>
+                        <tr><td>Armin Goražde</td><td>3</td><td>75 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 3, 75)">✖️</button></td></tr>
+                        <tr><td>Armin Goražde</td><td>5</td><td>125 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 5, 125)">✖️</button></td></tr>
+                        <tr><td>Pašić Hajrudin</td><td>1</td><td>25 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 1, 25)">✖️</button></td></tr>
+                        <tr><td>Lela</td><td>4</td><td>100 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 4, 100)">✖️</button></td></tr>
+                        <tr><td>Fikra</td><td>2</td><td>50 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 2, 50)">✖️</button></td></tr>
+                        <tr><td>Emina (Elma)</td><td>2</td><td>50 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 2, 50)">✖️</button></td></tr>
+                        <tr><td>Emina (Suada)</td><td>5</td><td>125 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 5, 125)">✖️</button></td></tr>
+                        <tr><td>Mirza — Goražde Armin</td><td>5</td><td>125 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 5, 125)">✖️</button></td></tr>
+                        <tr><td>Mare</td><td>1</td><td>25 KM</td><td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, 1, 25)">✖️</button></td></tr>
+                        <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4);" id="totalSalesRow">
+                            <td>UKUPNO PRODAJA</td>
+                            <td id="footerTotalJars">86 tegli</td>
+                            <td id="footerTotalRev">2.150 KM</td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -375,27 +386,32 @@
             <table id="giftTable" style="margin-top: 20px;">
                 <thead>
                     <tr>
-                        <th>Primalac (Dugi klik za brisanje)</th>
+                        <th>Primalac</th>
                         <th>Količina</th>
+                        <th style="width: 80px; text-align: center;">Akcija</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Lejla M.</td><td>1 tegla</td></tr>
-                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Emina Švica</td><td>1 tegla</td></tr>
-                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Mirza Pospo</td><td>2 tegle</td></tr>
-                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Mulija</td><td>1 tegla</td></tr>
-                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Mustafa</td><td>1 tegla</td></tr>
-                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Lela</td><td>2 tegle</td></tr>
-                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Trener</td><td>1 tegla</td></tr>
-                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Ismeta</td><td>1 tegla</td></tr>
-                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Hamo + Emina</td><td>1 tegla</td></tr>
-                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Suada</td><td>1 tegla</td></tr>
-                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Remza</td><td>2 tegle</td></tr>
-                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Hamo - Elma</td><td>2 tegle</td></tr>
-                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>Hamo + Emina (velika tegla)</td><td>2,5 kg</td></tr>
-                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>17.9. odneseno u Vlasenicu</td><td>2 tegle</td></tr>
-                    <tr class="deletable-row" onmousedown="startLongPress(event, this)" onttouchstart="startLongPress(event, this)" ondblclick="this.remove()"><td>17.9. Emina — Malezija</td><td>10 tegli</td></tr>
-                    <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4);"><td>UKUPNO POKLONI</td><td>31 tegla (+ 2,5 kg velika tegla)</td></tr>
+                    <tr><td>Lejla M.</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
+                    <tr><td>Emina Švica</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
+                    <tr><td>Mirza Pospo</td><td>2 tegle</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
+                    <tr><td>Mulija</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
+                    <tr><td>Mustafa</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
+                    <tr><td>Lela</td><td>2 tegle</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
+                    <tr><td>Trener</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
+                    <tr><td>Ismeta</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
+                    <tr><td>Hamo + Emina</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
+                    <tr><td>Suada</td><td>1 tegla</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
+                    <tr><td>Remza</td><td>2 tegle</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
+                    <tr><td>Hamo - Elma</td><td>2 tegle</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
+                    <tr><td>Hamo + Emina (velika tegla)</td><td>2,5 kg</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
+                    <tr><td>17.9. odneseno u Vlasenicu</td><td>2 tegle</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
+                    <tr><td>17.9. Emina — Malezija</td><td>10 tegli</td><td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td></tr>
+                    <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4);">
+                        <td>UKUPNO POKLONI</td>
+                        <td>31 tegla (+ 2,5 kg velika tegla)</td>
+                        <td></td>
+                    </tr>
                 </tbody>
             </table>
             <p style="margin-top: 15px;">Pokloni predstavljaju važan dio tradicije pčelinjaka HamosBees — dijeljenje meda s najbližima i partnerima, što doprinosi i promociji samog pčelinjaka.</p>
@@ -494,7 +510,7 @@
 
             <h3>📅 Planiranje vrcanja</h3>
             <ul>
-                <li>U 2026. najveći prinos je ostvaren u septembru (112 kg) — vrijedi analizirati pčelinju pašu u tom periodu i eventualno ponoviti raspored vrcanja u istim terminima i naredne godine.</li>
+                <li>U 2026. najveći prinos je ostvaren u septembru (112 kg) — vrijedi analizirati pčelinju pašu u periodu i eventualno ponoviti raspored vrcanja u istim terminima i naredne godine.</li>
                 <li>Kraće razmake između vrcanja (kao 4.-5. jul) koristiti kada se očekuje obilna paša, kako se saće ne bi prepunilo prije vrcanja.</li>
             </ul>
         </div>
@@ -580,7 +596,7 @@
             }
         });
 
-        // Dinamičke varijable za praćenje stanja
+        // Početne vrijednosti
         let totalRevenue = 2150;
         let totalExpenses = 1350;
         let totalJarsSold = 86;
@@ -603,12 +619,16 @@
             let table = document.getElementById('customerTable');
             let tbody = table.getElementsByTagName('tbody')[0];
             
-            let newRow = tbody.insertRow(tbody.rows.length - 1);
-            newRow.className = "deletable-row";
-            newRow.setAttribute("onmousedown", "startLongPress(event, this)");
-            newRow.setAttribute("onttouchstart", "startLongPress(event, this)");
-            newRow.setAttribute("ondblclick", "deleteSaleRow(this)");
-            newRow.innerHTML = `<td>${customer}</td><td>${jars}</td><td>${amount} KM</td>`;
+            // Ubacujemo novi red tačno iznad zadnjeg reda (UKUPNO)
+            let totalRowIndex = tbody.rows.length - 1;
+            let newRow = tbody.insertRow(totalRowIndex);
+            
+            newRow.innerHTML = `
+                <td>${customer}</td>
+                <td>${jars}</td>
+                <td>${amount} KM</td>
+                <td style="text-align: center;"><button class="btn-delete" onclick="deleteSaleRow(this, ${jars}, ${amount})">✖️</button></td>
+            `;
 
             totalRevenue += amount;
             totalJarsSold += jars;
@@ -618,16 +638,13 @@
             document.getElementById('newJars').value = '';
             document.getElementById('newAmount').value = '';
             
-            alert("✅ Uspješno dodata nova prodaja!");
+            alert("✅ Uspješno dodata nova prodaja i ažuriran izvještaj!");
         }
 
-        function deleteSaleRow(row) {
-            let jarsCell = parseInt(row.cells[1].innerText) || 0;
-            let amountText = row.cells[2].innerText;
-            let amountCell = parseFloat(amountText.replace(' KM', '')) || 0;
-
-            totalRevenue -= amountCell;
-            totalJarsSold -= jarsCell;
+        function deleteSaleRow(btn, jars, amount) {
+            let row = btn.closest('tr');
+            totalRevenue -= amount;
+            totalJarsSold -= jars;
             row.remove();
             updateFinancials();
             alert("🗑️ Stavka prodaje obrisana i bilans ažuriran!");
@@ -644,10 +661,11 @@
             document.getElementById('tableNet').innerText = (newNet >= 0 ? '+' : '') + newNet + ' KM';
             document.getElementById('summaryNet').innerText = (newNet >= 0 ? '+' : '') + newNet + ' KM';
 
-            let totalRow = document.getElementById('totalSalesRow');
-            totalRow.cells[1].innerText = totalJarsSold + ' tegli';
-            totalRow.cells[2].innerText = totalRevenue + ' KM';
+            // Ažuriranje footer reda u tabeli prodaje
+            document.getElementById('footerTotalJars').innerText = totalJarsSold + ' tegli';
+            document.getElementById('footerTotalRev').innerText = totalRevenue + ' KM';
 
+            // Osvježi grafikon
             financialChart.data.datasets[0].data[0] = totalRevenue;
             financialChart.data.datasets[0].data[2] = newNet;
             financialChart.update();
@@ -665,44 +683,19 @@
             let table = document.getElementById('giftTable');
             let tbody = table.getElementsByTagName('tbody')[0];
 
-            let newRow = tbody.insertRow(tbody.rows.length - 1);
-            newRow.className = "deletable-row";
-            newRow.setAttribute("onmousedown", "startLongPress(event, this)");
-            newRow.setAttribute("onttouchstart", "startLongPress(event, this)");
-            newRow.setAttribute("ondblclick", "this.remove()");
-            newRow.innerHTML = `<td>${receiver}</td><td>${qty}</td>`;
+            let totalRowIndex = tbody.rows.length - 1;
+            let newRow = tbody.insertRow(totalRowIndex);
+
+            newRow.innerHTML = `
+                <td>${receiver}</td>
+                <td>${qty}</td>
+                <td style="text-align: center;"><button class="btn-delete" onclick="this.closest('tr').remove()">✖️</button></td>
+            `;
 
             document.getElementById('newGiftReceiver').value = '';
             document.getElementById('newGiftQty').value = '';
 
             alert("🎁 Poklon uspješno zabilježen!");
-        }
-
-        // Funkcija za podršku dugog držanja (long-press) za brisanje redova na mobitelu i računaru
-        let pressTimer;
-        function startLongPress(e, row) {
-            // Ako je red sa ukupno, ne diraj ga
-            if (row.id === 'totalSalesRow' || row.cells[0].innerText.includes('UKUPNO')) return;
-
-            pressTimer = setTimeout(() => {
-                if (confirm("Želite li obrisati ovu stavku?")) {
-                    if (row.parentElement.parentElement.id === 'customerTable') {
-                        deleteSaleRow(row);
-                    } else {
-                        row.remove();
-                        alert("🗑️ Poklon obrisan!");
-                    }
-                }
-            }, 800); // 800 milisekundi držanja
-
-            const cancelPress = () => {
-                clearTimeout(pressTimer);
-                window.removeEventListener('mouseup', cancelPress);
-                window.removeEventListener('touchend', cancelPress);
-            };
-
-            window.addEventListener('mouseup', cancelPress);
-            window.addEventListener('touchend', cancelPress);
         }
 
         function filterCustomers() {
