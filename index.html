@@ -132,6 +132,7 @@
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
+            font-size: 0.9rem;
         }
 
         .simulator input {
@@ -142,6 +143,7 @@
             color: white;
             border-radius: 6px;
             font-size: 1rem;
+            box-sizing: border-box;
         }
 
         input.search-bar {
@@ -153,6 +155,7 @@
             color: white;
             border-radius: 6px;
             font-size: 1rem;
+            box-sizing: border-box;
         }
 
         table {
@@ -191,6 +194,22 @@
             border-top: 1px solid var(--border);
             font-size: 0.9rem;
         }
+
+        .btn-action {
+            padding: 11px 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .btn-action:hover {
+            background: var(--accent-hover);
+        }
     </style>
 </head>
 <body>
@@ -209,7 +228,7 @@
                 <p>Ukupno Vrcano Meda</p>
             </div>
             <div class="stat-box">
-                <h3>2.150 KM 💶</h3>
+                <h3 id="statRevenue">2.150 KM 💶</h3>
                 <p>Ukupan Prihod</p>
             </div>
             <div class="stat-box">
@@ -217,7 +236,7 @@
                 <p>Ukupni Troškovi</p>
             </div>
             <div class="stat-box">
-                <h3 style="color: #22c55e;">+800 KM 📈</h3>
+                <h3 id="statNet" style="color: #22c55e;">+800 KM 📈</h3>
                 <p>Čist Saldo (Neto)</p>
             </div>
         </div>
@@ -229,7 +248,7 @@
             <p>Sva evidencija je preuzeta iz originalnih bilježaka vlasnika pčelinjaka i sređena u tabelarni i grafički oblik radi lakšeg praćenja.</p>
             
             <div class="notice">
-                <strong>⚠️ Napomena:</strong> Ovaj izvještaj je pregled onoga što je do sada uspješno evidentirano, a ne konačan i zatvoren obračun. Moguće je da su pojedine stavke — prodaje, pokloni ili troškovi — u međuvremenu zaboravljene ili nisu zapisane, pa ih naknadno možemo dopuniti. <em>Primjer: troškovi izrade pogača krajem februara (oko 50–70 kg šećera, koje je tada pokrila Remza) nisu uključeni u ovaj izvještaj jer nisu bili evidentirani u originalnim bilješkama.</em> Ko primijeti da nešto nedostaje, slobodno neka javi — izvještaj se može ažurirati.
+                <strong>⚠️ Napomena:</strong> Ovaj izvještaj je pregled onoga što je do sada uspješno evidentirano, a ne konačan i zatvoren obračun. Moguće je da su pojedine stavke — prodaje, pokloni ili troškovi — u međuvremenu zaboravljene ili nisu zapisane, pa ih naknadno možemo dopuniti. <em>Primjer: troškovi izrade pogača krajem februara (oko 50–70 kg šećera, koje je tada pokrila Remza) nisu uključeni u ovaj izvještaj jer nisu bili evidentirani u originalnim bilješkama.</em> Ko primijeti da nešto nedostaje, slobodno neka javi — izvještaj se može ažurirati direktno putem dodanih formi ispod.
             </div>
         </div>
 
@@ -263,9 +282,31 @@
         <!-- 2. Prodaja meda -->
         <div class="card">
             <h2>2. 💰 Prodaja meda</h2>
-            <p>Med je prodavan većem broju kupaca, u manjim i većim količinama. Ukupno je prodato <strong>86 tegli meda</strong>, u vrijednosti od <strong>2.150 KM</strong>.</p>
+            <p>Med je prodavan većem broju kupaca, u manjim i većim količinama. Ukupno je prodato <strong id="totalJarsCount">86 tegli meda</strong>, u vrijednosti od <strong id="totalRevenueText">2.150 KM</strong>.</p>
             
-            <input type="text" id="customerSearch" class="search-bar" placeholder="🔍 Pretraži kupca po imenu u realnom vremenu..." onkeyup="filterCustomers()">
+            <!-- Interaktivna forma za unos nove prodaje -->
+            <div class="simulator">
+                <h3>➕ Unesi novu prodaju meda (Ažurira izvještaj automatski)</h3>
+                <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 10px; align-items: flex-end;">
+                    <div>
+                        <label>Ime kupca:</label>
+                        <input type="text" id="newCustomer" placeholder="Npr. Jovan">
+                    </div>
+                    <div>
+                        <label>Broj tegli:</label>
+                        <input type="number" id="newJars" placeholder="Npr. 2" oninput="calcPrice()">
+                    </div>
+                    <div>
+                        <label>Iznos (KM):</label>
+                        <input type="number" id="newAmount" placeholder="50">
+                    </div>
+                    <div>
+                        <button class="btn-action" onclick="addSale()">Dodaj prodaju</button>
+                    </div>
+                </div>
+            </div>
+
+            <input type="text" id="customerSearch" class="search-bar" style="margin-top: 20px;" placeholder="🔍 Pretraži kupca po imenu u realnom vremenu..." onkeyup="filterCustomers()">
             
             <div style="max-height: 400px; overflow-y: auto;">
                 <table id="customerTable">
@@ -295,7 +336,7 @@
                         <tr><td>Emina (Suada)</td><td>5</td><td>125 KM</td></tr>
                         <tr><td>Mirza — Goražde Armin</td><td>5</td><td>125 KM</td></tr>
                         <tr><td>Mare</td><td>1</td><td>25 KM</td></tr>
-                        <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4);"><td>UKUPNO PRODAJA</td><td>86 tegli</td><td>2.150 KM</td></tr>
+                        <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4);" id="totalSalesRow"><td>UKUPNO PRODAJA</td><td>86 tegli</td><td>2.150 KM</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -307,7 +348,25 @@
             <h2>3. 🎁 Pokloni</h2>
             <p>Pored prodaje, dio proizvedenog meda je poklonjen prijateljima, rodbini i saradnicima — ukupno <strong>31 tegla</strong>, uključujući i jednu veliku teglu od 2,5 kg. Poseban dio poklona (10 tegli) otišao je u Maleziju, na ruke Emine 🇲🇾.</p>
             
-            <table>
+            <!-- Interaktivna forma za unos novog poklona -->
+            <div class="simulator">
+                <h3>🎁 Evidentiraj novi poklon</h3>
+                <div style="display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 10px; align-items: flex-end;">
+                    <div>
+                        <label>Primalac:</label>
+                        <input type="text" id="newGiftReceiver" placeholder="Npr. Milan">
+                    </div>
+                    <div>
+                        <label>Količina:</label>
+                        <input type="text" id="newGiftQty" placeholder="Npr. 2 tegle">
+                    </div>
+                    <div>
+                        <button class="btn-action" onclick="addGift()">Evidentiraj</button>
+                    </div>
+                </div>
+            </div>
+
+            <table id="giftTable" style="margin-top: 20px;">
                 <thead>
                     <tr>
                         <th>Primalac</th>
@@ -385,9 +444,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Ukupan prihod od prodaje</td><td>2.150 KM</td></tr>
+                    <tr><td>Ukupan prihod od prodaje</td><td id="tableRev">2.150 KM</td></tr>
                     <tr><td>Ukupni troškovi</td><td>1.350 KM</td></tr>
-                    <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4); color: #22c55e;"><td>ČIST SALDO (NETO)</td><td>+800 KM</td></tr>
+                    <tr style="font-weight: bold; background: rgba(15, 23, 42, 0.4); color: #22c55e;"><td>ČIST SALDO (NETO)</td><td id="tableNet">+800 KM</td></tr>
                 </tbody>
             </table>
 
@@ -403,7 +462,7 @@
                 <p style="margin-top: 10px; font-size: 1.05rem;">Novi Procijenjeni Čist Saldo: <strong id="simulatedProfit" style="color: #22c55e;">800 KM</strong></p>
             </div>
 
-            <p style="margin-top: 15px;">Pčelinjak je 2026. godinu završio s pozitivnim rezultatom od <strong>+800 KM</strong>, uz napomenu da vrijednost poklonjenog meda (31 tegla) nije uračunata u prihod, iako predstavlja stvarnu proizvedenu vrijednost pčelinjaka.</p>
+            <p style="margin-top: 15px;">Pčelinjak je 2026. godinu završio s pozitivnim rezultatom od <strong id="summaryNet">+800 KM</strong>, uz napomenu da vrijednost poklonjenog meda (31 tegla) nije uračunata u prihod, iako predstavlja stvarnu proizvedenu vrijednost pčelinjaka.</p>
         </div>
 
         <!-- 6. Preporuke i trikovi -->
@@ -449,8 +508,9 @@
     </footer>
 
     <script>
+        // Inicijalizacija grafikonā
         const harvestCtx = document.getElementById('harvestChart').getContext('2d');
-        new Chart(harvestCtx, {
+        const harvestChart = new Chart(harvestCtx, {
             type: 'line',
             data: {
                 labels: ['14. jun', '4.-5. jul', '26. jul', '5. septembar'],
@@ -478,7 +538,7 @@
         });
 
         const expenseCtx = document.getElementById('expenseChart').getContext('2d');
-        new Chart(expenseCtx, {
+        const expenseChart = new Chart(expenseCtx, {
             type: 'doughnut',
             data: {
                 labels: ['Šećer (vreće)', 'Ambalaža i etikete', 'Oprema i lijekovi za varou', 'Matice (Hamo)', 'Web stranica'],
@@ -499,7 +559,7 @@
         });
 
         const finCtx = document.getElementById('financialChart').getContext('2d');
-        new Chart(finCtx, {
+        const financialChart = new Chart(finCtx, {
             type: 'bar',
             data: {
                 labels: ['Prihod od prodaje', 'Ukupni troškovi', 'Neto rezultat'],
@@ -522,9 +582,90 @@
             }
         });
 
+        // Dinamičke varijable za praćenje stanja
+        let totalRevenue = 2150;
+        let totalExpenses = 1350;
+        let totalJarsSold = 86;
+
+        function calcPrice() {
+            let jars = document.getElementById('newJars').value;
+            // Standardna cijena 25 KM po tegli ukoliko se ne unese drugačije
+            document.getElementById('newAmount').value = jars * 25;
+        }
+
+        function addSale() {
+            let customer = document.getElementById('newCustomer').value;
+            let jars = parseInt(document.getElementById('newJars').value);
+            let amount = parseFloat(document.getElementById('newAmount').value);
+
+            if(!customer || isNaN(jars) || isNaN(amount)) {
+                alert("Molimo popunite sva polja za prodaju ispravno!");
+                return;
+            }
+
+            let table = document.getElementById('customerTable');
+            let tbody = table.getElementsByTagName('tbody')[0];
+            
+            // Ubaci novi red iznad zadnjeg reda (UKUPNO)
+            let newRow = tbody.insertRow(tbody.rows.length - 1);
+            newRow.innerHTML = `<td>${customer}</td><td>${jars}</td><td>${amount} KM</td>`;
+
+            // Ažuriraj finansijske metrike
+            totalRevenue += amount;
+            totalJarsSold += jars;
+            let newNet = totalRevenue - totalExpenses;
+
+            // Osvježi kartice na vrhu
+            document.getElementById('statRevenue').innerText = totalRevenue + ' KM 💶';
+            document.getElementById('statNet').innerText = (newNet >= 0 ? '+' : '') + newNet + ' KM 📈';
+            document.getElementById('totalJarsCount').innerText = totalJarsSold + ' tegli meda';
+            document.getElementById('totalRevenueText').innerText = totalRevenue + ' KM';
+            document.getElementById('tableRev').innerText = totalRevenue + ' KM';
+            document.getElementById('tableNet').innerText = (newNet >= 0 ? '+' : '') + newNet + ' KM';
+            document.getElementById('summaryNet').innerText = (newNet >= 0 ? '+' : '') + newNet + ' KM';
+
+            // Ažuriraj red UKUPNO u tabeli prodaje
+            let totalRow = document.getElementById('totalSalesRow');
+            totalRow.cells[1].innerText = totalJarsSold + ' tegli';
+            totalRow.cells[2].innerText = totalRevenue + ' KM';
+
+            // Osvježi bar dijagram
+            financialChart.data.datasets[0].data[0] = totalRevenue;
+            financialChart.data.datasets[0].data[2] = newNet;
+            financialChart.update();
+
+            // Očisti formu
+            document.getElementById('newCustomer').value = '';
+            document.getElementById('newJars').value = '';
+            document.getElementById('newAmount').value = '';
+            
+            alert("✅ Uspješno dodata nova prodaja! Izvještaj i grafikoni su automatski ažurirani.");
+        }
+
+        function addGift() {
+            let receiver = document.getElementById('newGiftReceiver').value;
+            let qty = document.getElementById('newGiftQty').value;
+
+            if(!receiver || !qty) {
+                alert("Molimo popunite sva polja za poklon!");
+                return;
+            }
+
+            let table = document.getElementById('giftTable');
+            let tbody = table.getElementsByTagName('tbody')[0];
+
+            let newRow = tbody.insertRow(tbody.rows.length - 1);
+            newRow.innerHTML = `<td>${receiver}</td><td>${qty}</td>`;
+
+            document.getElementById('newGiftReceiver').value = '';
+            document.getElementById('newGiftQty').value = '';
+
+            alert("🎁 Poklon je uspješno zabilježen u izvještaj!");
+        }
+
         function calculateNewProfit() {
             const extra = parseFloat(document.getElementById('extraSales').value) || 0;
-            const baseProfit = 800;
+            const baseProfit = totalRevenue - totalExpenses;
             const newTotal = baseProfit + extra;
             document.getElementById('simulatedProfit').innerText = newTotal + ' KM';
         }
